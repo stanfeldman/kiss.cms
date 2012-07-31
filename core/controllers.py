@@ -11,12 +11,11 @@ from plugins.text.models import Text
 	
 class CoreController(Controller):	
 	def get(self, request):
-		#context = {"footer": "ft"}
-		#for pos, html in ContentInterface.get_html_get_all():
-		#	context[pos] = html
-		#return MenuInterface.get_page(request)
-		page = Page.get(url=request.params["url"])
-		return TemplateResponse(page.template)
+		try:
+			page = Page.get(url=request.params["url"])
+			return TemplateResponse(page.template)
+		except:
+			pass
 		
 	#on load handler via eventer
 	def application_after_load(self, application):
@@ -26,6 +25,7 @@ class CoreController(Controller):
 		PluginLoader.load(project_dir, plugin_dir)
 		p = Page.create(title="test page", url="tp", template="template1.html")
 		Text.create(placeholder="content", body="<h1>test content from db</h1>", page=p)
+		Text.create(placeholder="header", body="<h1>header from db</h1>", page=p)
 		print "app loaded"
 		
 	def internal_server_error(self, request):

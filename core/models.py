@@ -8,5 +8,5 @@ class Page(Model):
 
 
 class Content(Model):
-	placeholder = CharField()
+	placeholder = CharField(unique=True)
 	page = ForeignKeyField(Page)

@@ -29,4 +29,5 @@ nosetests.xml
 #Translations
 *.mo
 
-*.sqldb *.db
+*.sqldb
+*.db
