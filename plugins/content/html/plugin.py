@@ -18,3 +18,6 @@ class HtmlContentPlugin(Plugin):
 		except:
 			pass
 		return result
+		
+	def admin(self):
+		pass

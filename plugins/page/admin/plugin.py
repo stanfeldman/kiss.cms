@@ -1,5 +1,5 @@
 from pyplug import Plugin
-from core.extensions import AdminPagePluginInterface
+from core.extensions import PagePluginInterface, ContentPluginInterface, AdminPagePluginInterface
 from kiss.views.templates import TemplateResponse
 
 class AdminPagePlugin(Plugin):
@@ -10,5 +10,12 @@ class AdminPagePlugin(Plugin):
 		print "AdminPagePlugin loaded"
 		
 	def page(self):
-		return TemplateResponse("admin_template.html")
+		plugins = []
+		for pl in PagePluginInterface.admin_get_all():
+			if pl:
+				plugins.append(pl)
+		for pl in ContentPluginInterface.admin_get_all():
+			if pl:
+				plugins.append(pl)
+		return TemplateResponse("admin_template.html", {"plugins": plugins})
 

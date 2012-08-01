@@ -5,6 +5,9 @@
 	<body>
 		Admin panel
 		<hr color="blue" size="5"/>
-		lala
+		{% for plugin in plugins %}
+			{{ plugin }}
+			<hr color="black" size="5"/>
+		{% endfor %}
 	</body>
 </html>
