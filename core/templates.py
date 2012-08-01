@@ -22,7 +22,7 @@ class Placeholder(Extension):
 		return nodes.Output([self.call_method('_render', [arg])]).set_lineno(tag_token.lineno)
 
 	def _render(self, placeholder):
-		content = ContentPluginInterface.render(placeholder)
+		content = ContentPluginInterface.content(placeholder)
 		if content:
 			return Markup(content)
 		else:

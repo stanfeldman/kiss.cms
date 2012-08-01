@@ -7,12 +7,12 @@ import os
 from pyplug import PluginLoader
 from plugins.content.html.models import HtmlContent
 from plugins.page.html.models import HtmlPage
-from core.extensions import PagePluginInterface
+from core.extensions import PagePluginInterface, AdminPagePluginInterface
 
 	
-class CoreController(Controller):	
+class PageController(Controller):	
 	def get(self, request):
-		return PagePluginInterface.render(request.params["url"])
+		return PagePluginInterface.page(request.params["url"])
 		
 	#on load handler via eventer
 	def application_after_load(self, application):
@@ -24,3 +24,7 @@ class CoreController(Controller):
 		HtmlContent.get_or_create(placeholder="header", body="<h1>header from db</h1>", page=p)
 		print "Application loaded"
 
+
+class AdminController(Controller):	
+	def get(self, request):
+		return AdminPagePluginInterface.page()

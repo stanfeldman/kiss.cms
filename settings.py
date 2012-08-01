@@ -10,7 +10,7 @@ from kiss.core.application import Application
 from kiss.core.events import ApplicationStarted
 from kiss.core.exceptions import InternalServerError
 from kiss.models import SqliteDatabase
-from core.controllers import CoreController
+from core.controllers import PageController, AdminController
 
 
 options = {
@@ -19,15 +19,16 @@ options = {
 		"port": 8080
 	},
 	"urls": {
-		"": CoreController,
-		"(?P<url>.+)": CoreController
+		"": PageController,
+		"admin": AdminController,
+		"(?P<url>.+)": PageController
 	},
 	"views": {
 		"templates_path": "templates",
 		"templates_extensions": ["core.templates.Placeholder"]
 	},
 	"events": {
-		ApplicationStarted: CoreController.application_after_load
+		ApplicationStarted: PageController.application_after_load
 	},
 	"models": {
 		"engine": SqliteDatabase,

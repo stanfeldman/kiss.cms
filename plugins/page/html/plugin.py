@@ -11,7 +11,7 @@ class HtmlPagePlugin(Plugin):
 		HtmlPage.create_table(fail_silently=True)
 		print "HtmlPagePlugin loaded"
 		
-	def render(self, url):
+	def page(self, url):
 		result = None
 		try:
 			page = HtmlPage.get(url=url)
@@ -19,3 +19,6 @@ class HtmlPagePlugin(Plugin):
 		except:
 			pass
 		return result
+		
+	def admin(self):
+		return "admin ui for HtmlPagePlugin"

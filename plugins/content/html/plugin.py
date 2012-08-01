@@ -10,7 +10,7 @@ class HtmlContentPlugin(Plugin):
 		HtmlContent.create_table(fail_silently=True)
 		print "HtmlContentPlugin loaded"
 		
-	def render(self, placeholder):
+	def content(self, placeholder):
 		result = None
 		try:
 			t = HtmlContent.get(placeholder=placeholder)
