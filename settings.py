@@ -24,11 +24,10 @@ options = {
 	},
 	"views": {
 		"templates_path": "templates",
-		"templates_extensions": ["core.templates.Placeholder"],
+		"templates_extensions": ["core.templates.Placeholder"]
 	},
 	"events": {
-		ApplicationStarted: CoreController.application_after_load,
-		InternalServerError.code: CoreController.internal_server_error
+		ApplicationStarted: CoreController.application_after_load
 	},
 	"models": {
 		"engine": SqliteDatabase,

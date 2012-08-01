@@ -5,28 +5,22 @@ import datetime
 from kiss.controllers.core import Controller
 import os
 from pyplug import PluginLoader
-from models import Page
-from plugins.text.models import Text
+from plugins.content.html.models import HtmlContent
+from plugins.page.html.models import HtmlPage
+from core.extensions import PagePluginInterface
 
 	
 class CoreController(Controller):	
 	def get(self, request):
-		try:
-			page = Page.get(url=request.params["url"])
-			return TemplateResponse(page.template)
-		except:
-			pass
+		return PagePluginInterface.render(request.params["url"])
 		
 	#on load handler via eventer
 	def application_after_load(self, application):
-		Page.create_table(fail_silently=True)
 		project_dir = os.path.dirname(os.path.abspath(__file__))
 		plugin_dir = os.path.join(project_dir, "../plugins")
 		PluginLoader.load(project_dir, plugin_dir)
-		p = Page.create(title="test page", url="tp", template="template1.html")
-		Text.create(placeholder="content", body="<h1>test content from db</h1>", page=p)
-		Text.create(placeholder="header", body="<h1>header from db</h1>", page=p)
-		print "app loaded"
-		
-	def internal_server_error(self, request):
-		return Response("<h1>error: %s</h1>" % request.description)
+		p = HtmlPage.get_or_create(title="test page", url="tp", template="site_template.html")
+		HtmlContent.get_or_create(placeholder="content", body="<h1>test content from db</h1>", page=p)
+		HtmlContent.get_or_create(placeholder="header", body="<h1>header from db</h1>", page=p)
+		print "Application loaded"
+

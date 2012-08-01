@@ -1,7 +1,7 @@
 from jinja2.ext import Extension
 from jinja2 import nodes
 from jinja2 import Markup
-from core.interfaces import PluginInterface
+from core.extensions import ContentPluginInterface
 
 class Placeholder(Extension):
 	tags = set(["placeholder"])
@@ -22,7 +22,7 @@ class Placeholder(Extension):
 		return nodes.Output([self.call_method('_render', [arg])]).set_lineno(tag_token.lineno)
 
 	def _render(self, placeholder):
-		content = PluginInterface.render(placeholder)
+		content = ContentPluginInterface.render(placeholder)
 		if content:
 			return Markup(content)
 		else:

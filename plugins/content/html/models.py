@@ -2,5 +2,5 @@ from core.models import Content
 from kiss.models import TextField
 
 
-class Text(Content):
+class HtmlContent(Content):
 	body = TextField()
