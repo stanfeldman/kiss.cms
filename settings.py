@@ -18,14 +18,10 @@ options = {
 		"address": "127.0.0.1",
 		"port": 8080
 	},
-	"urls": {
-		"": PageController,
-		"admin": AdminController,
-		"(?P<url>.+)": PageController
-	},
 	"views": {
-		"templates_path": "templates",
-		"templates_extensions": ["core.templates.Placeholder"]
+		"templates_path": ["templates", "plugins"],
+		"templates_extensions": ["core.templates.Placeholder"],
+		"static_path": "static"
 	},
 	"events": {
 		ApplicationStarted: PageController.on_application_started

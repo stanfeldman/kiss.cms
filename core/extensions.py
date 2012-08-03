@@ -2,6 +2,9 @@ from pyplug import Interface
 	
 
 class PluginInterface(Interface):
+	def urls(self):
+		pass
+		
 	def admin(self):
 		pass
 			

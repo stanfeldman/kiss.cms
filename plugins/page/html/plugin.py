@@ -1,7 +1,9 @@
 from pyplug import Plugin
 from core.extensions import PagePluginInterface
 from models import HtmlPage
-from kiss.views.templates import TemplateResponse
+from kiss.views.templates import TemplateResponse, Template
+from controllers import AdminPageController
+
 
 class HtmlPagePlugin(Plugin):
 	name = "HTML page plugin"
@@ -10,6 +12,9 @@ class HtmlPagePlugin(Plugin):
 	def __init__(self):
 		HtmlPage.create_table(fail_silently=True)
 		print "HtmlPagePlugin loaded"
+		
+	def urls(self):
+		return {"admin/page": AdminPageController}
 		
 	def page(self, url):
 		result = None
@@ -21,4 +26,4 @@ class HtmlPagePlugin(Plugin):
 		return result
 		
 	def admin(self):
-		return "admin ui for HtmlPagePlugin"
+		return Template.text_by_path("page/html/admin_template.html")

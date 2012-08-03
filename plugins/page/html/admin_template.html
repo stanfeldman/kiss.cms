@@ -1,0 +1,16 @@
+<script src="/scripts/jquery.form.js"></script>
+<script>
+$(document).ready(function() {
+    $('#html_page_admin_form').ajaxForm({ 
+        target: '#html_page_admin_form_result',
+        success: function() { 
+            $('#html_page_admin_form_result').fadeIn('slow'); 
+        } 
+    }); 
+});
+</script>
+<form id="html_page_admin_form" action="/admin/page" method="post"> 
+    Message: <input type="text" name="message" value="Hello HTML" /> 
+    <input type="submit" value="Echo as HTML" /> 
+</form>
+<div id="html_page_admin_form_result">here will be result</div>

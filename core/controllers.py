@@ -20,6 +20,13 @@ class PageController(Controller):
 		project_dir = os.path.dirname(os.path.abspath(__file__))
 		plugin_dir = os.path.join(project_dir, "../plugins")
 		PluginLoader.load(project_dir, plugin_dir)
+		application.router.add_urls({"": PageController})
+		application.router.add_urls({"admin": AdminController})
+		application.router.add_urls({"admin": AdminController})
+		for urls in PagePluginInterface.urls_get_all():
+			if urls:
+				application.router.add_urls(urls)
+		application.router.add_urls({"(?P<url>.+)": PageController})
 		p = HtmlPage.get_or_create(title="test page", url="tp", template="site_template.html")
 		HtmlContent.get_or_create(placeholder="content", body="<h1>test content from db</h1>", page=p)
 		HtmlContent.get_or_create(placeholder="header", body="<h1>header from db</h1>", page=p)
@@ -29,3 +36,4 @@ class PageController(Controller):
 class AdminController(Controller):	
 	def get(self, request):
 		return AdminPagePluginInterface.page()
+
