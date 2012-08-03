@@ -8,14 +8,15 @@ from pyplug import PluginLoader
 from plugins.content.html.models import HtmlContent
 from plugins.page.html.models import HtmlPage
 from core.extensions import PagePluginInterface, AdminPagePluginInterface
+from kiss.models import Model
+from putils.dynamics import Introspector
 
 	
 class PageController(Controller):	
 	def get(self, request):
 		return PagePluginInterface.page(request.params["url"])
 		
-	#on load handler via eventer
-	def application_after_load(self, application):
+	def on_application_started(self, application):
 		project_dir = os.path.dirname(os.path.abspath(__file__))
 		plugin_dir = os.path.join(project_dir, "../plugins")
 		PluginLoader.load(project_dir, plugin_dir)

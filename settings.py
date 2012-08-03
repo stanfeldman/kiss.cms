@@ -28,7 +28,7 @@ options = {
 		"templates_extensions": ["core.templates.Placeholder"]
 	},
 	"events": {
-		ApplicationStarted: PageController.application_after_load
+		ApplicationStarted: PageController.on_application_started
 	},
 	"models": {
 		"engine": SqliteDatabase,
