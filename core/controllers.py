@@ -8,7 +8,7 @@ from pyplug import PluginLoader
 from plugins.content.html.models import HtmlContent
 from plugins.page.html.models import HtmlPage
 from core.extensions import PagePluginInterface, AdminPagePluginInterface
-from kiss.models import Model
+from kiss.models import setup_all, drop_all, create_all, session
 from putils.dynamics import Introspector
 
 	
@@ -17,9 +17,11 @@ class PageController(Controller):
 		return PagePluginInterface.page(request.params["url"])
 		
 	def on_application_started(self, application):
+		#loading plugins
 		project_dir = os.path.dirname(os.path.abspath(__file__))
 		plugin_dir = os.path.join(project_dir, "../plugins")
 		PluginLoader.load(project_dir, plugin_dir)
+		#adding urls
 		application.router.add_urls({"": PageController})
 		application.router.add_urls({"admin": AdminController})
 		application.router.add_urls({"admin": AdminController})
@@ -27,9 +29,15 @@ class PageController(Controller):
 			if urls:
 				application.router.add_urls(urls)
 		application.router.add_urls({"(?P<url>.+)": PageController})
-		p = HtmlPage.get_or_create(title="test page", url="tp", template="site_template.html")
-		HtmlContent.get_or_create(placeholder="content", body="<h1>test content from db</h1>", page=p)
-		HtmlContent.get_or_create(placeholder="header", body="<h1>header from db</h1>", page=p)
+		#creating db
+		setup_all()
+		drop_all()
+		create_all()
+		#sample data
+		p = HtmlPage(title=u"test page", url=u"tp", template=u"site_template.html")
+		HtmlContent(placeholder=u"content", body=u"<h1>test content from db</h1>", page=p)
+		HtmlContent(placeholder=u"header", body=u"<h1>header from db</h1>", page=p)
+		session.commit()
 		print "Application loaded"
 
 

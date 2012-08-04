@@ -7,13 +7,12 @@ class HtmlContentPlugin(Plugin):
 	implements = [ContentPluginInterface]
 	
 	def __init__(self):
-		HtmlContent.create_table(fail_silently=True)
 		print "HtmlContentPlugin loaded"
 		
 	def content(self, placeholder):
 		result = None
 		try:
-			t = HtmlContent.get(placeholder=placeholder)
+			t = HtmlContent.get_by(placeholder=placeholder)
 			result = t.body
 		except:
 			pass

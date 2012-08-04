@@ -9,7 +9,6 @@ sys.path.append(path.join(current_dir, "../pev/"))
 from kiss.core.application import Application
 from kiss.core.events import ApplicationStarted
 from kiss.core.exceptions import InternalServerError
-from kiss.models import SqliteDatabase
 from core.controllers import PageController, AdminController
 
 
@@ -27,8 +26,7 @@ options = {
 		ApplicationStarted: PageController.on_application_started
 	},
 	"models": {
-		"engine": SqliteDatabase,
-		"database": path.join(current_dir, "kms_site.sqldb")
+		"connection": "sqlite:///kms_site.sqldb"
 	}
 }
 

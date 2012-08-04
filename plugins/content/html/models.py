@@ -1,6 +1,6 @@
 from core.models import Content
-from kiss.models import TextField
+from kiss.models import Field, Unicode
 
 
 class HtmlContent(Content):
-	body = TextField()
+	body = Field(Unicode)

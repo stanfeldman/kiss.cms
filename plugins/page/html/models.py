@@ -1,6 +1,6 @@
 from core.models import Page
-from kiss.models import CharField
+from kiss.models import Field, Unicode
 
 
 class HtmlPage(Page):
-	template = CharField()
+	template = Field(Unicode)
