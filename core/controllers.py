@@ -24,7 +24,6 @@ class PageController(Controller):
 		#adding urls
 		application.router.add_urls({"": PageController})
 		application.router.add_urls({"admin": AdminController})
-		application.router.add_urls({"admin": AdminController})
 		for urls in PagePluginInterface.urls_get_all():
 			if urls:
 				application.router.add_urls(urls)

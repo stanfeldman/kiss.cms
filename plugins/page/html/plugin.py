@@ -25,4 +25,6 @@ class HtmlPagePlugin(Plugin):
 		return result
 		
 	def admin(self):
-		return Template.text_by_path("page/html/admin_template.html")
+		context = {}
+		context["pages"] = HtmlPage.query.all()
+		return Template.text_by_path("page/html/templates/admin.html", context)
