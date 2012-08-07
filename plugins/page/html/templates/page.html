@@ -1,1 +1,9 @@
-<li class="page">url: {{page.url}}, title: {{page.title}}</li>
+<li class="page">
+url:&nbsp;{{page.url}}<br/>
+title:&nbsp;{{page.title}}<br/>
+template:&nbsp;{{page.template}}<br/>
+{% for ph in placeholders %}
+{{ph}}<br/>
+{% endfor %}
+</li>
+

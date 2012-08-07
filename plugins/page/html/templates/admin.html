@@ -11,7 +11,12 @@ $(document).ready(function() {
 <form id="html_page_admin_add_page_form" action="/admin/page" method="post">
 	Title: <input type="text" name="title"/><br/>
 	Url: <input type="text" name="url"/><br/>
-	template: <input type="text" name="template"/><br/>
+	template: 
+	<select name="template">
+		{% for tmpl in templates %}
+		<option value="{{tmpl}}">{{tmpl}}</options>
+		{% endfor %}
+	</select><br/>
     <!--Page content: <textarea cols="20" rows="3" name="body"></textarea><br/>-->
     <input type="submit" value="Add page" /> 
 </form>

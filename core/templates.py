@@ -15,10 +15,6 @@ class Placeholder(Extension):
 		tag_token = stream.next()
 		arg_token = stream.next()
 		arg = nodes.Const(arg_token.value, lineno=arg_token.lineno)
-		#if not parser.filename in self.placeholders:
-		#	self.placeholders[parser.filename] = set()
-		#self.placeholders[parser.filename].add(arg.value)
-		#print self.placeholders
 		return nodes.Output([self.call_method('_render', [arg])]).set_lineno(tag_token.lineno)
 
 	def _render(self, placeholder):
