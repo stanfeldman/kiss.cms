@@ -10,6 +10,7 @@ from plugins.page.html.models import HtmlPage
 from core.extensions import PagePluginInterface, AdminPagePluginInterface, ContentPluginInterface
 from kiss.models import setup_all, drop_all, create_all, session
 from putils.dynamics import Introspector
+from jinja2 import PackageLoader
 
 	
 class PageController(Controller):	
@@ -21,6 +22,7 @@ class PageController(Controller):
 		project_dir = os.path.dirname(os.path.abspath(__file__))
 		plugin_dir = os.path.join(project_dir, "../plugins")
 		PluginLoader.load(project_dir, plugin_dir)
+		application.router.add_template_paths(application.options["plugins"]["path"])
 		#adding urls
 		application.router.add_urls({"": PageController})
 		application.router.add_urls({"admin": AdminController})

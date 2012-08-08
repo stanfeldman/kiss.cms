@@ -18,9 +18,12 @@ options = {
 		"port": 8080
 	},
 	"views": {
-		"templates_path": ["templates", "plugins"],
+		"templates_path": ["templates"],
 		"templates_extensions": ["core.templates.Placeholder"],
 		"static_path": "static"
+	},
+	"plugins": {
+		"path": ["plugins"]
 	},
 	"events": {
 		ApplicationStarted: PageController.on_application_started
