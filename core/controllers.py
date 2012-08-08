@@ -7,7 +7,7 @@ import os
 from pyplug import PluginLoader
 from plugins.content.html.models import HtmlContent
 from plugins.page.html.models import HtmlPage
-from core.extensions import PagePluginInterface, AdminPagePluginInterface
+from core.extensions import PagePluginInterface, AdminPagePluginInterface, ContentPluginInterface
 from kiss.models import setup_all, drop_all, create_all, session
 from putils.dynamics import Introspector
 
@@ -25,6 +25,9 @@ class PageController(Controller):
 		application.router.add_urls({"": PageController})
 		application.router.add_urls({"admin": AdminController})
 		for urls in PagePluginInterface.urls_get_all():
+			if urls:
+				application.router.add_urls(urls)
+		for urls in ContentPluginInterface.urls_get_all():
 			if urls:
 				application.router.add_urls(urls)
 		application.router.add_urls({"(?P<url>.+)": PageController})

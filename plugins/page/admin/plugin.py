@@ -14,8 +14,5 @@ class AdminPagePlugin(Plugin):
 		for pl in PagePluginInterface.admin_get_all():
 			if pl:
 				plugins.append(pl)
-		for pl in ContentPluginInterface.admin_get_all():
-			if pl:
-				plugins.append(pl)
 		return TemplateResponse("page/admin/templates/admin.html", {"plugins": plugins})
 

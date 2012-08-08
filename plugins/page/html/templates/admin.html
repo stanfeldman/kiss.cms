@@ -1,14 +1,22 @@
-<script src="/scripts/jquery.form.js"></script>
 <script>
 $(document).ready(function() {
     $('#html_page_admin_add_page_form').ajaxForm({ 
         success: function(responseText, statusText, xhr, frm) { 
             $('.page:last').append(responseText);
         } 
-    }); 
+    });
+    $('a').bind('click',function(event)
+    {
+    	event.preventDefault();
+    	var link = $(this);
+    	$.get(this.href,{},function(response)
+    	{
+    		link.parent().html(response);
+    	});
+    });
 });
 </script>
-<form id="html_page_admin_add_page_form" action="/admin/page" method="post">
+<form id="html_page_admin_add_page_form" action="/admin/page/html" method="post">
 	Title: <input type="text" name="title"/><br/>
 	Url: <input type="text" name="url"/><br/>
 	template: 
@@ -17,11 +25,10 @@ $(document).ready(function() {
 		<option value="{{tmpl}}">{{tmpl}}</options>
 		{% endfor %}
 	</select><br/>
-    <!--Page content: <textarea cols="20" rows="3" name="body"></textarea><br/>-->
     <input type="submit" value="Add page" /> 
 </form>
 <ul>
 {% for page in pages %}
-{%include "page/html/templates/page.html" %}
+{%include "page/html/templates/small_page.html" %}
 {% endfor %}
 </ul>

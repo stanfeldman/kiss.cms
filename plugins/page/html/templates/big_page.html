@@ -1,0 +1,13 @@
+<li class="page">
+url:&nbsp;{{page.url}}<br/>
+title:&nbsp;{{page.title}}<br/>
+template:&nbsp;{{page.template}}<br/>
+{% for placeholder in placeholders %}
+	<h2>{{placeholder}}</h2>
+	{% for plugin_name, plugin_program in plugins.iteritems() %}
+		<div>{{plugin_program.admin(page, placeholder)}}</div>
+	{% endfor %}
+	<br/>
+{% endfor %}
+</li>
+

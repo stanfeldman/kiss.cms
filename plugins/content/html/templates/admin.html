@@ -1,0 +1,17 @@
+<div id="html_content_{{page}}_{{placeholder}}">
+<script>
+	$(document).ready(function() {
+		$('#html_content_form_{{page}}_{{placeholder}}').ajaxForm({ 
+		    success: function(responseText, statusText, xhr, frm) { 
+		        $("#html_content_{{page}}_{{placeholder}}").html(responseText).effect("highlight", {}, 1500);;
+		    }
+		});
+	});
+</script>
+<form id="html_content_form_{{page}}_{{placeholder}}" action="/admin/content/html" method="post">
+	<textarea name="body" cols="20" rows="4">{{body}}</textarea><br/>
+	<input type="hidden" name="page" value="{{page}}">
+	<input type="hidden" name="placeholder" value="{{placeholder}}">
+    <input type="submit" value="Update html content" /> 
+</form>
+</div>
