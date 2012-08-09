@@ -1,5 +1,5 @@
 from pyplug import Plugin
-from core.extensions import PagePluginInterface, ContentPluginInterface, AdminPagePluginInterface
+from kms.core.extensions import PagePluginInterface, ContentPluginInterface, AdminPagePluginInterface
 from kiss.views.templates import TemplateResponse
 
 class AdminPagePlugin(Plugin):

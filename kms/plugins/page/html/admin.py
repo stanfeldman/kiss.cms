@@ -4,7 +4,7 @@ from kiss.models import session
 from models import HtmlPage
 from kiss.core.application import Application
 import re
-from core.extensions import ContentPluginInterface
+from kms.core.extensions import ContentPluginInterface
 
 
 class AddHtmlPageController(Controller):	

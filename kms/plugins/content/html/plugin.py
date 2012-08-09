@@ -1,5 +1,5 @@
 from pyplug import Plugin
-from core.extensions import ContentPluginInterface
+from kms.core.extensions import ContentPluginInterface
 from models import HtmlContent
 from kiss.views.templates import Template
 from admin import UpdateHtmlContentController, ShowHtmlContentController

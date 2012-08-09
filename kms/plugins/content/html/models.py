@@ -1,4 +1,4 @@
-from core.models import Content
+from kms.core.models import Content
 from kiss.models import Field, Unicode, using_options
 
 

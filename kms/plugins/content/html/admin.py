@@ -2,7 +2,7 @@ from kiss.controllers.core import Controller
 from kiss.views.templates import TemplateResponse
 from kiss.views.core import Response
 from kiss.models import session
-from core.models import Page
+from kms.core.models import Page
 from kiss.core.application import Application
 from kiss.views.templates import Template
 from models import HtmlContent

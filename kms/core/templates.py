@@ -1,7 +1,7 @@
 from jinja2.ext import Extension
 from jinja2 import nodes
 from jinja2 import Markup
-from core.extensions import ContentPluginInterface
+from kms.core.extensions import ContentPluginInterface
 
 class Placeholder(Extension):
 	tags = set(["placeholder"])
