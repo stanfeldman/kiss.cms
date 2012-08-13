@@ -1,4 +1,4 @@
-from kms.core.models import Page
+from core.models import Page
 from kiss.models import Field, Unicode, using_options
 
 

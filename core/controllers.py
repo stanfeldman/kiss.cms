@@ -5,9 +5,9 @@ import datetime
 from kiss.controllers.core import Controller
 import os
 from pyplug import PluginLoader
-from kms.plugins.content.html.models import HtmlContent
-from kms.plugins.page.html.models import HtmlPage
-from kms.core.extensions import PagePluginInterface, AdminPagePluginInterface, ContentPluginInterface
+from plugins.content.html.models import HtmlContent
+from plugins.page.html.models import HtmlPage
+from core.extensions import PagePluginInterface, AdminPagePluginInterface, ContentPluginInterface
 from kiss.models import setup_all, drop_all, create_all, session
 from putils.dynamics import Introspector, Importer
 from jinja2 import PackageLoader

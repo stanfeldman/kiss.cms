@@ -1,18 +1,18 @@
 from kiss.core.application import Application
 from kiss.core.events import ApplicationStarted
-from kms.core.controllers import PageController
+from controllers import PageController
 from putils.types import Dict
 
 
 core_options = {
 	"views": {
-		"templates_extensions": ["kms.core.templates.Placeholder"]
+		"templates_extensions": ["core.templates.Placeholder"]
 	},
 	"events": {
 		ApplicationStarted: PageController.on_application_started
 	},
 	"plugins": {
-		"path": ["kms.plugins"]
+		"path": ["plugins"]
 	}
 }
 

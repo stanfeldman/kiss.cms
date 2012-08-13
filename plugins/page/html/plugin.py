@@ -1,5 +1,5 @@
 from pyplug import Plugin
-from kms.core.extensions import PagePluginInterface
+from core.extensions import PagePluginInterface
 from models import HtmlPage
 from kiss.views.templates import TemplateResponse, Template
 from admin import AddHtmlPageController, ShowHtmlPageController

@@ -14,7 +14,7 @@ options = {
 	},
 	"views": {
 		"templates_path": ["templates"],
-		"static_path": "static"
+		"static_path": ["static"]
 	},
 	"models": {
 		"connection": "sqlite:///%s/kms_site.sqldb" % current_dir
