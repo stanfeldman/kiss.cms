@@ -10,9 +10,6 @@ core_options = {
 	},
 	"events": {
 		ApplicationStarted: PageController.on_application_started
-	},
-	"plugins": {
-		"path": ["plugins"]
 	}
 }
 

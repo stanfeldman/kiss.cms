@@ -7,10 +7,14 @@ sys.path.append("/home/stanislavfeldman/projects/python/pyplug")
 sys.path.append("/home/stanislavfeldman/projects/python/pev")
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
+#internal options in core.startup
 options = {
 	"application": {
 		"address": "127.0.0.1",
 		"port": 8080
+	},
+	"plugins": {
+		"path": ["plugins"]
 	},
 	"views": {
 		"templates_path": ["website.templates"],
