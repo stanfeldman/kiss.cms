@@ -5,9 +5,6 @@ from putils.types import Dict
 
 
 core_options = {
-	"views": {
-		"templates_extensions": ["core.templates.Placeholder"]
-	},
 	"events": {
 		ApplicationStarted: PageController.on_application_started
 	}

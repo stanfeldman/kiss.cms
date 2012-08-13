@@ -26,7 +26,7 @@ class HtmlPagePlugin(Plugin):
 		result = None
 		try:
 			page = HtmlPage.get_by(url=url)
-			result = TemplateResponse(page.template)
+			result = TemplateResponse(page.template, {"page": page})
 		except:
 			pass
 		return result

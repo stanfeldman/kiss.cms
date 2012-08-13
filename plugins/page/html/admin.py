@@ -21,7 +21,7 @@ class ShowHtmlPageController(Controller):
 		context["page"] = HtmlPage.get_by(id=request.params["page"])
 		temp_env = Application().options["views"]["templates_environment"]
 		tmpl = temp_env.loader.get_source(temp_env, context["page"].template)
-		context["placeholders"] = re.findall(r"""{%[ ]?placeholder[ ]?"(?P<placeholder>[a-zA-Z0-9]+)"[ ]?%}""", unicode(tmpl))
+		context["placeholders"] = re.findall(r"""{{[ ]?placeholder[ ]?\([ ]?"(?P<placeholder>[a-zA-Z0-9]+)"[ ]?\)[ ]?}}""", unicode(tmpl))
 		context["plugins"] = ContentPluginInterface.plugins
 		return TemplateResponse("page/html/templates/big_page.html", context)
 

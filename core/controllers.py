@@ -11,6 +11,7 @@ from core.extensions import PagePluginInterface, AdminPagePluginInterface, Conte
 from kiss.models import setup_all, drop_all, create_all, session
 from putils.dynamics import Introspector, Importer
 from jinja2 import PackageLoader
+from templates import placeholder
 
 	
 class PageController(Controller):	
@@ -22,6 +23,7 @@ class PageController(Controller):
 		for p in application.options["plugins"]["path"]:
 			PluginLoader.load(p)
 		application.router.add_template_paths(application.options["plugins"]["path"])
+		application.options["views"]["templates_environment"].globals["placeholder"] = placeholder
 		#adding urls
 		application.router.add_urls({"": PageController})
 		application.router.add_urls({"admin": AdminController})

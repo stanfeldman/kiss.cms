@@ -16,10 +16,10 @@ class HtmlContentPlugin(Plugin):
 			"admin/content/html": UpdateHtmlContentController
 		}
 		
-	def content(self, placeholder):
+	def content(self, page, placeholder):
 		result = None
 		try:
-			t = HtmlContent.get_by(placeholder=placeholder)
+			t = HtmlContent.get_by(page=page, placeholder=placeholder)
 			result = t.body
 		except:
 			pass

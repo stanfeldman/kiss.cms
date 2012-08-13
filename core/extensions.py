@@ -7,7 +7,7 @@ class PluginInterface(Interface):
 			
 
 class ContentPluginInterface(PluginInterface):
-	def content(self, placeholder):
+	def content(self, page, placeholder):
 		pass
 		
 	def admin(self, page, placeholder):
