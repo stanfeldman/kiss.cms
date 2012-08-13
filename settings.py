@@ -1,5 +1,5 @@
+#this is only for dev, in production you should use this packages from pypi
 import sys, os
-sys.path.append("/home/stanislavfeldman/projects/python/kms")
 sys.path.append("/home/stanislavfeldman/projects/python/kiss.py")
 sys.path.append("/home/stanislavfeldman/projects/python/compressinja")
 sys.path.append("/home/stanislavfeldman/projects/python/putils")
@@ -13,11 +13,11 @@ options = {
 		"port": 8080
 	},
 	"views": {
-		"templates_path": ["templates"],
-		"static_path": ["static"]
+		"templates_path": ["website.templates"],
+		"static_path": ["website.static"]
 	},
 	"models": {
-		"connection": "sqlite:///%s/kms_site.sqldb" % current_dir
+		"connection": "sqlite:///%s/data.sqldb" % current_dir
 	}
 }
 
