@@ -2,10 +2,10 @@
 $(document).ready(function() {
     $('#html_page_admin_add_page_form').ajaxForm({ 
         success: function(responseText, statusText, xhr, frm) { 
-            $('.page:last').append(responseText);
+            $('li.page:last').after(responseText);
         } 
     });
-    $('a').bind('click',function(event)
+    $('a').live('click',function(event)
     {
     	event.preventDefault();
     	var link = $(this);
