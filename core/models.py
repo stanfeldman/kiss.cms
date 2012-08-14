@@ -16,6 +16,7 @@ class Content(Entity):
 	using_options(inheritance="multi")
 	created = ManyToOne("User", inverse="created_contents")
 	updated = ManyToOne("User", inverse="updated_contents")
+	privileges = ManyToOne("Privilege")
 
 
 class Page(Content):
@@ -23,7 +24,6 @@ class Page(Content):
 	title = Field(Unicode)
 	url = Field(Unicode)
 	page_blocks = OneToMany("PageBlock")
-	#privileges = OneToMany("Privilege", inverse="page")
 
 
 class PageBlock(Content):
@@ -38,7 +38,7 @@ class User(Entity):
 	password = Field(Unicode)
 	created_contents = OneToMany("Content", inverse="created")
 	updated_contents = OneToMany("Content", inverse="updated")
-	privilege = OneToMany("Privilege")
+	privileges = ManyToOne("Privilege")
 	
 	
 class PrivilegeType(object):
@@ -47,6 +47,5 @@ class PrivilegeType(object):
 	
 class Privilege(Entity):
 	type = Field(Integer) #PrivelegeType
-	user = ManyToOne("User")
-	#content = ManyToOne("Content")
-	#page = ManyToOne("Page", inverse="privileges")
+	user = OneToMany("User")
+	content = OneToMany("Content")
