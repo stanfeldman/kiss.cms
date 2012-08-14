@@ -1,6 +1,7 @@
 from pyplug import Plugin
 from core.extensions import PagePluginInterface, ContentPluginInterface, AdminPagePluginInterface
 from kiss.views.templates import TemplateResponse
+import os
 
 class AdminPagePlugin(Plugin):
 	name = "Admin page plugin"
@@ -8,6 +9,10 @@ class AdminPagePlugin(Plugin):
 	
 	def __init__(self):
 		print "AdminPagePlugin loaded"
+		
+	def static_path(self):
+		current_dir = os.path.dirname(os.path.abspath(__file__))
+		return ("/admin_page_plugin", os.path.join(current_dir, "static"))
 		
 	def page(self):
 		plugins = []

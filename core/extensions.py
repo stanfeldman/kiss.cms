@@ -4,6 +4,11 @@ from pyplug import Interface
 class PluginInterface(Interface):
 	def urls(self):
 		pass
+	def static_path(self):
+		"""
+		returns pair (url_path, folder_path)
+		"""
+		pass
 			
 
 class ContentPluginInterface(PluginInterface):

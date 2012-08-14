@@ -1,12 +1,12 @@
 from kiss.core.application import Application
-from kiss.core.events import ApplicationStarted
+from kiss.core.events import BeforeInitServer
 from controllers import PageController
 from putils.types import Dict
 
 
 core_options = {
 	"events": {
-		ApplicationStarted: PageController.on_application_started
+		BeforeInitServer: PageController.on_before_init_server
 	}
 }
 
