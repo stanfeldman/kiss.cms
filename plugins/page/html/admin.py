@@ -20,7 +20,7 @@ class ShowHtmlPageController(Controller):
 	def get(self, request):
 		context = {}
 		context["page"] = HtmlPage.get_by(id=request.params["page"])
-		temp_env = Application().options["views"]["templates_environment"]
+		temp_env = Application().templates_environment
 		tmpl = temp_env.loader.get_source(temp_env, context["page"].template)
 		context["placeholders"] = re.findall(r"""{{[ ]?placeholder[ ]?\([ ]?"(?P<placeholder>[a-zA-Z0-9]+)"[ ]?\)[ ]?}}""", unicode(tmpl))
 		context["plugins"] = PageBlockPluginInterface.plugins

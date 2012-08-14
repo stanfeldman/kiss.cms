@@ -13,6 +13,9 @@ class HtmlPagePlugin(Plugin):
 	def __init__(self):
 		print "%s loaded" % self.__class__.__name__
 		
+	def name(self):
+		return "HTML page"
+		
 	def urls(self):
 		return {
 			"admin/page/html": {

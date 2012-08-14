@@ -15,8 +15,7 @@ class AdminPagePlugin(Plugin):
 		
 	def page(self):
 		plugins = []
-		for pl in PagePluginInterface.admin_get_all():
-			if pl:
-				plugins.append(pl)
+		for pl in PagePluginInterface.plugins.values():
+			plugins.append((pl.name(), pl.admin()))
 		return TemplateResponse("page/admin/templates/admin.html", {"plugins": plugins})
 

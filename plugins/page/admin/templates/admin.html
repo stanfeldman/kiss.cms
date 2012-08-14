@@ -1,16 +1,37 @@
 <html>
 	<head>
-		<title>page</title>
-		<script src="/scripts/jquery.js"></script>
-		<script src="/scripts/jqueryui.js"></script>
-		<script src="/scripts/jquery.form.js"></script>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>admin</title>
+		<link type="text/css" href="/styles/jqueryui.css" rel="stylesheet" />
+		<script type="text/javascript" src="/scripts/jquery.js"></script>
+		<script type="text/javascript" src="/scripts/jquery.form.js"></script>
+		<script type="text/javascript" src="/scripts/jqueryui.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				$('#admin_tabs').tabs();
+				$("#page_plugins_tabs").tabs();
+			});
+		</script>
 	</head>
 	<body>
-		Admin panel
-		<hr color="blue" size="5"/>
-		{% for plugin in plugins %}
-			{{ plugin }}
-			<hr color="black" size="5"/>
-		{% endfor %}
+		<div id="admin_tabs">
+			<ul>
+				<li><a href="#page_plugins_tab">Page plugins</a></li>
+				<li><a href="#users_tab">Users</a></li>
+			</ul>
+			<div id="page_plugins_tab">
+				<div id="page_plugins_tabs">
+					<ul>
+						{% for name, page in plugins %}
+							<li><a href="#{{name}}_tab">{{name}}</a></li>
+						{% endfor %}
+					</ul>
+					{% for name, page in plugins %}
+						<div id="{{name}}_tab">{{page}}</div>
+					{% endfor %}
+				</div>
+			</div>
+			<div id="users_tab">lalal</div>
+		</div>
 	</body>
 </html>
