@@ -11,7 +11,7 @@ $(document).ready(function() {
     	var link = $(this);
     	$.get(this.href,{},function(response)
     	{
-    		link.parent().html(response);
+    		link.parent().html(response).effect("highlight", {}, 1500);
     	});
     });
 });

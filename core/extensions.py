@@ -9,14 +9,6 @@ class PluginInterface(Interface):
 		returns pair (url_path, folder_path)
 		"""
 		pass
-			
-
-class ContentPluginInterface(PluginInterface):
-	def content(self, page, placeholder):
-		pass
-		
-	def admin(self, page, placeholder):
-		pass
 		
 		
 class PagePluginInterface(PluginInterface):
@@ -24,6 +16,14 @@ class PagePluginInterface(PluginInterface):
 		pass
 		
 	def admin(self):
+		pass
+
+
+class PageBlockPluginInterface(PluginInterface):
+	def content(self, page, placeholder):
+		pass
+		
+	def admin(self, page, placeholder):
 		pass
 		
 		

@@ -2,23 +2,25 @@ from pyplug import Plugin
 from core.extensions import PagePluginInterface
 from models import HtmlPage
 from kiss.views.templates import TemplateResponse, Template
-from admin import AddHtmlPageController, ShowHtmlPageController
+from admin import AddHtmlPageController, ShowHtmlPageController, DeleteHtmlPageController
 from kiss.core.application import Application
 from jinja2 import Environment, PackageLoader, ChoiceLoader
 
 
 class HtmlPagePlugin(Plugin):
-	name = "HTML page plugin"
 	implements = [PagePluginInterface]
 	
 	def __init__(self):
-		print "HtmlPagePlugin loaded"
+		print "%s loaded" % self.__class__.__name__
 		
 	def urls(self):
 		return {
 			"admin/page/html": {
 				"": AddHtmlPageController,
-				"(?P<page>\d+)": ShowHtmlPageController
+				"(?P<page>\d+)": {
+					"": ShowHtmlPageController,
+					"delete": DeleteHtmlPageController
+				}
 			}
 		}
 		

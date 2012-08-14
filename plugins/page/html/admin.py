@@ -1,10 +1,11 @@
 from kiss.controllers.core import Controller
 from kiss.views.templates import TemplateResponse
+from kiss.views.core import Response
 from kiss.models import session
 from models import HtmlPage
 from kiss.core.application import Application
 import re
-from core.extensions import ContentPluginInterface
+from core.extensions import PageBlockPluginInterface
 
 
 class AddHtmlPageController(Controller):	
@@ -22,6 +23,15 @@ class ShowHtmlPageController(Controller):
 		temp_env = Application().options["views"]["templates_environment"]
 		tmpl = temp_env.loader.get_source(temp_env, context["page"].template)
 		context["placeholders"] = re.findall(r"""{{[ ]?placeholder[ ]?\([ ]?"(?P<placeholder>[a-zA-Z0-9]+)"[ ]?\)[ ]?}}""", unicode(tmpl))
-		context["plugins"] = ContentPluginInterface.plugins
+		context["plugins"] = PageBlockPluginInterface.plugins
 		return TemplateResponse("page/html/templates/big_page.html", context)
+		
+
+class DeleteHtmlPageController(Controller):
+	def get(self, request):
+		context = {}
+		page = HtmlPage.get_by(id=request.params["page"])
+		page.delete()
+		session.commit()
+		return Response("ok")
 

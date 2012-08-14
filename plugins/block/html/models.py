@@ -1,10 +1,10 @@
-from core.models import Content
+from core.models import PageBlock
 from kiss.models import Field, Unicode, using_options
 
 
-class HtmlContent(Content):
+class HtmlBlock(PageBlock):
 	using_options(inheritance="multi")
 	body = Field(Unicode)
 	
 	def __repr__(self):
-		return '<HtmlContent "%s": %s>' % (self.placeholder, self.body)
+		return '<HtmlBlock "%s": %s>' % (self.placeholder, self.body)
