@@ -1,5 +1,6 @@
 from kiss.models import Entity, Field, Unicode, Integer, OneToOne, OneToMany, ManyToOne, using_options, session
 
+
 class ExtendedEntity(Entity):
 	@classmethod
 	def get_or_create(cls, **kwargs):
@@ -38,14 +39,23 @@ class User(Entity):
 	password = Field(Unicode)
 	created_contents = OneToMany("Content", inverse="created")
 	updated_contents = OneToMany("Content", inverse="updated")
+	role = ManyToOne("UserRole")
+	
+	
+class UserRole(Entity):
+	"""
+	Set of privileges
+	"""
+	users = OneToMany("User")
 	privileges = ManyToOne("Privilege")
 	
 	
 class PrivilegeType(object):
 	Read = 0
 	Write = 1
-	
+
+
 class Privilege(Entity):
 	type = Field(Integer) #PrivelegeType
-	user = OneToMany("User")
+	role = OneToMany("UserRole")
 	content = OneToMany("Content")
