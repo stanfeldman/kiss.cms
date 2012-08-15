@@ -2,16 +2,17 @@ from pyplug import Interface
 	
 
 class PluginInterface(Interface):
+	"""
+	Plugin structure:
+	plugin_root_dir
+		plugin.py(module with plugin class definition)
+		static
+		templates
+		lang		
+	"""
 	def name(self):
 		pass
 	def urls(self):
-		pass
-	def static_path(self):
-		"""
-		returns pair (url_path, folder_path)
-		"""
-		pass
-	def translation_path(self):
 		pass
 		
 		

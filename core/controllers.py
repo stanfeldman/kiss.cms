@@ -21,7 +21,6 @@ class PageController(Controller):
 		#loading plugins
 		for p in application.options["plugins"]["path"]:
 			PluginLoader.load(p)
-		application.templater.add_template_paths(application.options["plugins"]["path"])
 		application.templates_environment.globals["placeholder"] = placeholder
 		#adding urls
 		application.router.add_urls({"": PageController})
@@ -31,16 +30,21 @@ class PageController(Controller):
 				if urls:
 					application.router.add_urls(urls)
 		application.router.add_urls({"(?P<url>.+)": PageController})
-		#adding static paths
 		for i in [PagePluginInterface, AdminPagePluginInterface, PageBlockPluginInterface]:
-			for static in i.static_path_get_all():
-				if static:
-					application.add_static([static[1]], url_path=static[0])
-		#adding translation paths
-		for i in [PagePluginInterface, AdminPagePluginInterface, PageBlockPluginInterface]:
-			for tr_path in i.translation_path_get_all():
-				if tr_path:
-					application.templater.add_translation_paths([tr_path])
+			for plugin_name, plugin in i.plugins.iteritems():
+				plugin_dir = os.path.dirname(Importer.object_path(plugin))
+				#adding templates paths
+				templates_dir = os.path.join(plugin_dir, "templates")
+				if os.path.exists(templates_dir):
+					application.templater.add_template_paths([templates_dir], plugin_name.lower())
+				#adding static paths
+				static_dir = os.path.join(plugin_dir, "static")
+				if os.path.exists(static_dir):
+					application.add_static([static_dir], url_path=plugin_name)
+				#adding translation paths
+				trans_dir = os.path.join(plugin_dir, "lang")
+				if os.path.exists(trans_dir):
+					application.templater.add_translation_paths([trans_dir])
 		#creating db
 		setup_all()
 		drop_all()

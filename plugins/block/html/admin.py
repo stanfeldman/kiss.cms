@@ -26,4 +26,4 @@ class ShowHtmlBlockController(Controller):
 			context["body"] = HtmlBlock.get_by(page=page, placeholder=placeholder).body
 		except:
 			pass
-		return Template.text_by_path("block/html/templates/admin.html", context)
+		return Template.text_by_path("htmlblockplugin/admin.html", context)

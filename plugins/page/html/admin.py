@@ -13,7 +13,7 @@ class AddHtmlPageController(Controller):
 		context = {}
 		context["page"] = HtmlPage(title=request.form["title"], url=request.form["url"], template=request.form["template"])
 		session.commit()
-		return TemplateResponse("page/html/templates/small_page.html", context)
+		return TemplateResponse("htmlpageplugin/small_page.html", context)
 		
 		
 class ShowHtmlPageController(Controller):
@@ -24,7 +24,7 @@ class ShowHtmlPageController(Controller):
 		tmpl = temp_env.loader.get_source(temp_env, context["page"].template)
 		context["placeholders"] = re.findall(r"""{{[ ]?placeholder[ ]?\([ ]?"(?P<placeholder>[a-zA-Z0-9]+)"[ ]?\)[ ]?}}""", unicode(tmpl))
 		context["plugins"] = PageBlockPluginInterface.plugins
-		return TemplateResponse("page/html/templates/big_page.html", context)
+		return TemplateResponse("htmlpageplugin/big_page.html", context)
 		
 
 class DeleteHtmlPageController(Controller):

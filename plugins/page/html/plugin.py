@@ -15,7 +15,6 @@ class HtmlPagePlugin(Plugin):
 		print "%s loaded" % self.__class__.__name__
 		
 	def name(self):
-		print _("page")
 		return "HTML %s" % _("page").decode('utf-8')
 		
 	def urls(self):
@@ -50,4 +49,4 @@ class HtmlPagePlugin(Plugin):
 			tps.append(PackageLoader(Application().options["views"]["templates_path"], ""))
 		temp_env = Environment(loader=ChoiceLoader(tps))
 		context["templates"] = temp_env.list_templates(extensions=["html"])
-		return Template.text_by_path("page/html/templates/admin.html", context)
+		return Template.text_by_path("htmlpageplugin/admin.html", context)
