@@ -36,6 +36,11 @@ class PageController(Controller):
 			for static in i.static_path_get_all():
 				if static:
 					application.add_static([static[1]], url_path=static[0])
+		#adding translation paths
+		for i in [PagePluginInterface, AdminPagePluginInterface, PageBlockPluginInterface]:
+			for tr_path in i.translation_path_get_all():
+				if tr_path:
+					application.templater.add_translation_paths([tr_path])
 		#creating db
 		setup_all()
 		drop_all()

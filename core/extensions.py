@@ -11,6 +11,8 @@ class PluginInterface(Interface):
 		returns pair (url_path, folder_path)
 		"""
 		pass
+	def translation_path(self):
+		pass
 		
 		
 class PagePluginInterface(PluginInterface):

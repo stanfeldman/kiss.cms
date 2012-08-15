@@ -1,0 +1,20 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "admin page"
+msgstr "страница администратора"
+
+msgid "page"
+msgstr "cтраница"
+
+msgid "plugin"
+msgid_plural "plugins"
+msgstr[0] "плагин"
+msgstr[1] "плагины"
+
+msgid "user"
+msgid_plural "users"
+msgstr[0] "пользователь"
+msgstr[1] "пользователи"
