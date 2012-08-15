@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from pyplug import Plugin
 from core.extensions import PagePluginInterface
 from models import HtmlPage
@@ -14,7 +15,8 @@ class HtmlPagePlugin(Plugin):
 		print "%s loaded" % self.__class__.__name__
 		
 	def name(self):
-		return "HTML page"
+		print _("page")
+		return "HTML %s" % _("page").decode('utf-8')
 		
 	def urls(self):
 		return {
