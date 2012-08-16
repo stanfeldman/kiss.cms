@@ -1,37 +1,37 @@
-<html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>{{gettext("admin page")|title}}</title>
-		<link type="text/css" href="/styles/jqueryui.css" rel="stylesheet" />
-		<script type="text/javascript" src="/scripts/jquery.js"></script>
-		<script type="text/javascript" src="/scripts/jquery.form.js"></script>
-		<script type="text/javascript" src="/scripts/jqueryui.js"></script>
-		<script type="text/javascript">
-			$(function(){
-				$('#admin_tabs').tabs();
-				$("#page_plugins_tabs").tabs();
-			});
-		</script>
-	</head>
-	<body>
-		<div id="admin_tabs">
-			<ul>
-				<li><a href="#page_plugins_tab">{{ngettext("plugin", "plugins", 2)|title}}</a></li>
-				<li><a href="#users_tab">{{ngettext("user", "users", 2)|title}}</a></li>
-			</ul>
-			<div id="page_plugins_tab">
-				<div id="page_plugins_tabs">
-					<ul>
-						{% for name, page in plugins %}
-							<li><a href="#{{name}}_tab">{{name}}</a></li>
-						{% endfor %}
-					</ul>
+{% extends "commonresourcesplugin/base.html" %}
+
+{% block title %}{{gettext("admin page")|title}}{% endblock %}
+
+{% block scripts %}
+	{{ super() }}
+	<script type="text/javascript" src="/adminpageplugin/scripts/jquery.form.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('#admin_tabs').tabs();
+			$("#page_plugins_tabs").tabs();
+		});
+	</script>
+{% endblock %}
+
+{% block content %}
+	<div id="admin_tabs">
+		<ul>
+			<li><a href="#page_plugins_tab">{{ngettext("plugin", "plugins", 2)|title}}</a></li>
+			<li><a href="#users_tab">{{ngettext("user", "users", 2)|title}}</a></li>
+		</ul>
+		<div id="page_plugins_tab">
+			<div id="page_plugins_tabs">
+				<ul>
 					{% for name, page in plugins %}
-						<div id="{{name}}_tab">{{page}}</div>
+						<li><a href="#{{name}}_tab">{{name}}</a></li>
 					{% endfor %}
-				</div>
+				</ul>
+				{% for name, page in plugins %}
+					<div id="{{name}}_tab">{{page}}</div>
+				{% endfor %}
 			</div>
-			<div id="users_tab">lalal</div>
 		</div>
-	</body>
-</html>
+		<div id="users_tab">lalal</div>
+	</div>
+{% endblock %}
+

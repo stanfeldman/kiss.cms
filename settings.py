@@ -16,10 +16,6 @@ options = {
 	"plugins": {
 		"path": ["plugins"]
 	},
-	"views": {
-		"templates_path": ["website.templates"],
-		"static_path": ["website.static"]
-	},
 	"models": {
 		"connection": "sqlite:///%s/data.sqldb" % current_dir
 	}

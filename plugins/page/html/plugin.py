@@ -5,7 +5,8 @@ from models import HtmlPage
 from kiss.views.templates import TemplateResponse, Template
 from admin import AddHtmlPageController, ShowHtmlPageController, DeleteHtmlPageController
 from kiss.core.application import Application
-from jinja2 import Environment, PackageLoader, ChoiceLoader
+from jinja2 import Environment, FileSystemLoader
+import os
 
 
 class HtmlPagePlugin(Plugin):
@@ -38,15 +39,10 @@ class HtmlPagePlugin(Plugin):
 		return result
 		
 	def admin(self):
+		print self.template_path
 		context = {}
 		context["pages"] = HtmlPage.query.all()
-		#temp_env = Application().options["views"]["templates_environment"]
-		tps = []
-		if isinstance(Application().options["views"]["templates_path"], list):
-			for tp in Application().options["views"]["templates_path"]:
-				tps.append(PackageLoader(tp, ""))
-		else:
-			tps.append(PackageLoader(Application().options["views"]["templates_path"], ""))
-		temp_env = Environment(loader=ChoiceLoader(tps))
+		if self.template_path:
+			temp_env = Environment(loader=FileSystemLoader(os.path.join(self.template_path, "user")))
 		context["templates"] = temp_env.list_templates(extensions=["html"])
-		return Template.text_by_path("htmlpageplugin/admin.html", context)
+		return Template.text_by_path("htmlpageplugin/admin/main.html", context)
