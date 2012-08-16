@@ -39,7 +39,6 @@ class HtmlPagePlugin(Plugin):
 		return result
 		
 	def admin(self):
-		print self.template_path
 		context = {}
 		context["pages"] = HtmlPage.query.all()
 		if self.template_path:

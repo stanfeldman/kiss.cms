@@ -1,0 +1,18 @@
+<div id="video_block_{{page}}_{{placeholder}}">
+<script>
+	$(document).ready(function() {
+		$('#video_block_form_{{page}}_{{placeholder}}').ajaxForm({ 
+		    success: function(responseText, statusText, xhr, frm) { 
+		        $("#video_block_{{page}}_{{placeholder}}").html(responseText).effect("highlight", {}, 1500);
+		    }
+		});
+	});
+</script>
+<form id="video_block_form_{{page}}_{{placeholder}}" action="/admin/block/video/edit" method="post">
+	Link: <input type="text" name="link" value="{{link}}"><br/>
+	Source: <input type="text" name="source" value="{{source}}"><br/>
+	<input type="hidden" name="page" value="{{page}}">
+	<input type="hidden" name="placeholder" value="{{placeholder}}">
+    <input type="submit" value="Update video content" />
+</form>
+</div>

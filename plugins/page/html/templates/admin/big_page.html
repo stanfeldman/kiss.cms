@@ -2,12 +2,26 @@
 url:&nbsp;{{page.url}}<br/>
 title:&nbsp;{{page.title}}<br/>
 template:&nbsp;{{page.template}}<br/>
-{% for ph in placeholders %}
-	<h2>{{ph}}</h2>
-	{% for plugin_name, plugin_program in plugins.iteritems() %}
-		<div>{{plugin_program.admin(page, ph)}}</div>
+<div class="accordion">
+	{% for ph, plugin_name, plugin_admin_page in blocks %}
+		<h3><a href="#{{ ph }}_tab">{{ ph }}</a></h3>
+		<div id="{{ ph }}_tab">
+			{% if plugin_admin_page %}
+				<h3>{{ plugin_name }}</h3>
+				{{ plugin_admin_page }}
+			{% else %}
+				<form id="html_page_admin_add_page_form" action="/admin/page/html" method="post">
+					<input type="hidden" name="placeholder" value="{{ph}}" /> 
+					<select name="plugin">
+						{% for pl in block_plugins %}
+							<option value="{{pl}}">{{pl}}</options>
+						{% endfor %}
+					</select>
+					<input type="submit" value="Add block plugin" /> 
+				</form>
+			{% endif %}
+		</div>
 	{% endfor %}
-	<br/>
-{% endfor %}
+</div>
 </li>
 

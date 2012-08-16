@@ -2,7 +2,7 @@ from kiss.controllers.core import Controller
 from kiss.views.templates import TemplateResponse
 from kiss.views.core import Response
 from kiss.models import session
-from core.models import Page
+from core.models import Page, PageBlock
 from kiss.core.application import Application
 from kiss.views.templates import Template
 from models import HtmlBlock
@@ -23,7 +23,10 @@ class ShowHtmlBlockController(Controller):
 		context["page"] = page.id
 		context["placeholder"] = placeholder
 		try:
-			context["body"] = HtmlBlock.get_by(page=page, placeholder=placeholder).body
+			block = PageBlock.get_by(page=page, placeholder=placeholder)
+			if not isinstance(block, HtmlBlock):
+				return None
+			context["body"] = block.body
 		except:
 			pass
 		return Template.text_by_path("htmlblockplugin/admin.html", context)

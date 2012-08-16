@@ -7,20 +7,19 @@
 	<script type="text/javascript" src="/adminpageplugin/scripts/jquery.form.js"></script>
 	<script type="text/javascript">
 		$(function(){
-			$('#admin_tabs').tabs();
-			$("#page_plugins_tabs").tabs();
+			$('.tabs').tabs();
 		});
 	</script>
 {% endblock %}
 
 {% block content %}
-	<div id="admin_tabs">
+	<div class="tabs">
 		<ul>
 			<li><a href="#page_plugins_tab">{{ngettext("plugin", "plugins", 2)|title}}</a></li>
 			<li><a href="#users_tab">{{ngettext("user", "users", 2)|title}}</a></li>
 		</ul>
 		<div id="page_plugins_tab">
-			<div id="page_plugins_tabs">
+			<div class="tabs">
 				<ul>
 					{% for name, page in plugins %}
 						<li><a href="#{{name}}_tab">{{name}}</a></li>

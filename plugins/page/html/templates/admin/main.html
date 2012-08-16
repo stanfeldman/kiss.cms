@@ -5,13 +5,14 @@ $(document).ready(function() {
             $('li.page:last').after(responseText);
         } 
     });
-    $('a').live('click',function(event)
+    $('a.page').live('click',function(event)
     {
     	event.preventDefault();
     	var link = $(this);
     	$.get(this.href,{},function(response)
     	{
     		link.parent().html(response).effect("highlight", {}, 1500);
+    		$(".accordion").accordion({ collapsible: true });
     	});
     });
 });
