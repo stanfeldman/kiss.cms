@@ -5,9 +5,8 @@ from core.extensions import PageBlockPluginInterface
 @contextfunction
 def placeholder(context, placeholder):
 	page = context["page"]
-	content = PageBlockPluginInterface.content(page, placeholder)
-	if content:
-		return Markup(content)
-	else:
-		return Markup("")
+	for content in PageBlockPluginInterface.content_get_all(page, placeholder):
+		if content:
+			return Markup(content)
+	return Markup("")
 

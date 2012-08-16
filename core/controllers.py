@@ -5,8 +5,11 @@ import datetime
 from kiss.controllers.core import Controller
 import os
 from pyplug import PluginLoader
+### this is for test
 from plugins.block.html.models import HtmlBlock
+from plugins.block.video.models import VideoBlock
 from plugins.page.html.models import HtmlPage
+###
 from core.extensions import PagePluginInterface, AdminPagePluginInterface, PageBlockPluginInterface, PluginInterface
 from kiss.models import setup_all, drop_all, create_all, session
 from putils.dynamics import Introspector, Importer
@@ -15,7 +18,10 @@ from templates import placeholder
 	
 class PageController(Controller):	
 	def get(self, request):
-		return PagePluginInterface.page(request.params["url"])
+		for page in PagePluginInterface.page_get_all(request.params["url"]):
+			if page:
+				return page
+		return None
 		
 	def on_before_init_server(self, application):
 		#loading plugins
@@ -56,13 +62,18 @@ class PageController(Controller):
 		create_all()
 		#sample data
 		p = HtmlPage(title=u"test page", url=u"tp", template=u"htmlpageplugin/user/site_template.html")
-		HtmlBlock(placeholder=u"content", body=u"<h1>test content from db</h1>", page=p)
+		HtmlBlock(placeholder=u"content1", body=u"<h1>test content from db</h1>", page=p)
 		HtmlBlock(placeholder=u"header", body=u"<h1>header from db</h1>", page=p)
+		VideoBlock(page=p, placeholder=u"content2", link=u"SLBsGIP6NTg", source=u"youtube")
+		VideoBlock(page=p, placeholder=u"footer", link=u"47502276", source=u"vimeo")
 		session.commit()
 		print "Application loaded"
 
 
 class AdminController(Controller):	
 	def get(self, request):
-		return AdminPagePluginInterface.page()
+		for adm_page in AdminPagePluginInterface.page_get_all():
+			if adm_page:
+				return adm_page
+		return None
 
