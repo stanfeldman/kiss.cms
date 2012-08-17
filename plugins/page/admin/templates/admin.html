@@ -4,33 +4,42 @@
 
 {% block scripts %}
 	{{ super() }}
-	<script type="text/javascript" src="/adminpageplugin/scripts/jquery.form.js"></script>
+	<script src="/commonresourcesplugin/scripts/jquery.form.js"></script>
 	<script type="text/javascript">
 		$(function(){
-			$('.tabs').tabs();
+			$(".collapse").collapse();
+			$('.modal').modal({show: false});
 		});
 	</script>
 {% endblock %}
 
 {% block content %}
-	<div class="tabs">
-		<ul>
-			<li><a href="#page_plugins_tab">{{ngettext("plugin", "plugins", 2)|title}}</a></li>
-			<li><a href="#users_tab">{{ngettext("user", "users", 2)|title}}</a></li>
+	<div class="tabbable"> <!-- top -->
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#page_plugins_tab" data-toggle="tab">{{ngettext("plugin", "plugins", 2)|title}}</a></li>
+			<li><a href="#users_tab" data-toggle="tab">{{ngettext("user", "users", 2)|title}}</a></li>
 		</ul>
-		<div id="page_plugins_tab">
-			<div class="tabs">
-				<ul>
-					{% for page_plugin_name, page_plugin_code in plugins %}
-						<li><a href="#{{page_plugin_name}}_tab">{{page_plugin_name}}</a></li>
-					{% endfor %}
-				</ul>
-				{% for page_plugin_name, page_plugin_code in plugins %}
-					<div id="{{page_plugin_name}}_tab">{{page_plugin_code}}</div>
-				{% endfor %}
+		<div class="tab-content">
+			<div class="tab-pane active" id="page_plugins_tab">
+				<p>
+					<div class="tabbable tabs-left"> <!-- top -->
+						<ul class="nav nav-tabs">
+							{% for page_plugin_name, page_plugin_title, page_plugin_code in plugins %}
+								<li {% if loop.first %}class="active"{% endif %}><a href="#{{page_plugin_name}}_tab" data-toggle="tab">{{page_plugin_title}}</a></li>
+							{% endfor %}
+						</ul>
+						<div class="tab-content">
+							{% for page_plugin_name, page_plugin_title, page_plugin_code in plugins %}
+								<div class="{% if loop.first %}tab-pane active{% else %}tab-pane{% endif %}" id="{{page_plugin_name}}_tab"><p>{{page_plugin_code}}</p></div>
+							{% endfor %}
+						</div>
+					</div>
+				</p>
+			</div>
+			<div class="tab-pane" id="users_tab">
+				<p>Howdy, I'm in Section 2.</p>
 			</div>
 		</div>
-		<div id="users_tab">lalal</div>
 	</div>
 {% endblock %}
 

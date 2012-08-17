@@ -12,7 +12,7 @@ class AdminPagePlugin(Plugin):
 		
 	def page(self):
 		plugins = []
-		for pl in PagePluginInterface.plugins.values():
-			plugins.append((pl.name(), pl.admin()))
+		for pl_name, pl_code in PagePluginInterface.plugins.iteritems():
+			plugins.append((pl_name, pl_code.name(), pl_code.admin()))
 		return TemplateResponse("adminpageplugin/admin.html", {"plugins": plugins})
 

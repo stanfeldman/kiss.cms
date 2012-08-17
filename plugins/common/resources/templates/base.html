@@ -1,13 +1,19 @@
+<!DOCTYPE html>
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
 		<title>{%block title %}{%endblock%}</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		{%block styles %}
-			<link type="text/css" href="/commonresourcesplugin/styles/jqueryui.css" rel="stylesheet" />
+			<link href="/commonresourcesplugin/styles/bootstrap.css" rel="stylesheet">
 		{%endblock%}
 		{%block scripts %}
-			<script type="text/javascript" src="/commonresourcesplugin/scripts/jquery.js"></script>
-			<script type="text/javascript" src="/commonresourcesplugin/scripts/jqueryui.js"></script>
+			<!--[if lt IE 9]>
+			  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+			<![endif]-->
+		  	<script src="/commonresourcesplugin/scripts/jquery.js"></script>
+		  	<script src="/commonresourcesplugin/scripts/bootstrap.js"></script>
 		{%endblock%}
 	</head>
 	<body>

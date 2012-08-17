@@ -1,0 +1,32 @@
+<a data-toggle="collapse" data-target="#page_{{page.id}}_tab">{{ page.title }}({{ page.url }})</a> 
+<div id="page_{{page.id}}_tab" class="collapse in">
+	url:&nbsp;{{page.url}}<br/>
+	title:&nbsp;{{page.title}}<br/>
+	template:&nbsp;{{page.template}}<br/>
+	<div class="tabbable tabs-left">
+		<ul class="nav nav-tabs">
+			{% for ph, plugin_name, plugin_admin_page in page.blocks %}
+				<li {% if loop.first %}class="active"{% endif %}><a href="#{{ph}}_tab" data-toggle="tab">{{ph}}</a></li>
+			{% endfor %}
+		</ul>
+		<div class="tab-content">
+			{% for ph, plugin_name, plugin_admin_page in page.blocks %}
+				<div class="{% if loop.first %}tab-pane active{% else %}tab-pane{% endif %}" id="{{ph}}_tab">
+					<p>
+						{% if plugin_admin_page %}
+							<h3>{{ plugin_name }}</h3>
+							{{ plugin_admin_page }}
+						{% else %}
+							<div class="accordion">
+								{% for pl_name, pl_code in block_plugins %}
+									<h3><a href="#">{{ pl_name }}</a></h3>
+									<div>{{ pl_code.admin(page, ph) }}</div>
+								{% endfor %}
+							</div>
+						{% endif %}
+					</p>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>

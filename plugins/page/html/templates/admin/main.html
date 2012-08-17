@@ -1,98 +1,54 @@
 <script>
 $(document).ready(function() {
-    /*$('#html_page_admin_add_page_form').ajaxForm({ 
+    $('#add_page_form').ajaxForm({ 
         success: function(responseText, statusText, xhr, frm) { 
-            $('li.page:last').after(responseText);
+            $('#pages').append(responseText);
+            $("#add_page_dialog").modal('hide');
         } 
     });
-    $('a.page').live('click',function(event)
-    {
-    	event.preventDefault();
-    	var link = $(this);
-    	$.get(this.href,{},function(response)
-    	{
-    		link.parent().html(response).effect("highlight", {}, 1500);
-    		$(".accordion").accordion({ collapsible: true, autoHeight: false });
-    	});
-    });*/
-    $(".accordion").accordion({ collapsible: true, autoHeight: false });
-    $("#html_page_admin_add_page_form").dialog(
-    {
-		autoOpen: false,
-		height: 400,
-		width: 400,
-		modal: true,
-		buttons: 
-		{
-			"Add page": function(){},
-			"Cancel": function() { $(this).dialog("close"); }
-		}
+    $('#add_page_form_submit').on('click', function(e){
+		e.preventDefault();
+		$('#add_page_form').submit();
 	});
-	$("button").button();
-    $("#html_page_admin_add_page_button").click(function()
-    {
-    	$("#html_page_admin_add_page_form").dialog("open");
-    });
 });
 </script>
-<style>
-	label, input { display:block; }
-	input, textarea, select { width:95%; }
-	fieldset { padding:0; border:0; margin-top:25px; }
-</style>
-<form id="html_page_admin_add_page_for" action="/admin/page/html" method="post">
-	Title: <input type="text" name="title"/><br/>
-	Url: <input type="text" name="url"/><br/>
-	template: 
-	<select name="template">
-		{% for tmpl in templates %}
-		<option value="{{tmpl}}">{{tmpl}}</options>
-		{% endfor %}
-	</select><br/>
-    <input type="submit" value="Add page" /> 
-</form>
-<div id="html_page_admin_add_page_form" title="Add new page">
-	<form>
-		<fieldset>
-			<label for="title">Title</label>
-			<input type="text" id="title" name="title"/>
-			<label for="url">Url</label>
-			<input type="text" id="url" name="url"/>
-			<label for="template">Template</label>
-			<select id="template" name="template">
-				{% for tmpl in templates %}
-				<option value="{{tmpl}}">{{tmpl}}</options>
-				{% endfor %}
-			</select>
-		</fieldset>
-	</form>
-</div>
-<button id="html_page_admin_add_page_button">Add new page</button>
-<div class="accordion">
-	{% for page in pages %}
-		<h3><a href="#">{{ page.title }}({{ page.url }})</a></h3>
-		<div>
-			url:&nbsp;{{page.url}}<br/>
-			title:&nbsp;{{page.title}}<br/>
-			template:&nbsp;{{page.template}}<br/>
-			<div class="accordion">
-				{% for ph, plugin_name, plugin_admin_page in page.blocks %}
-					<h3><a href="#">{{ ph }}</a></h3>
-					<div>
-						{% if plugin_admin_page %}
-							<h3>{{ plugin_name }}</h3>
-							{{ plugin_admin_page }}
-						{% else %}
-							<div class="accordion">
-								{% for pl_name, pl_code in block_plugins %}
-									<h3><a href="#">{{ pl_name }}</a></h3>
-									<div>{{ pl_code.admin(page, ph) }}</div>
-								{% endfor %}
-							</div>
-						{% endif %}
+<div class="modal hide" id="add_page_dialog">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">×</button>
+		<h3>Modal header</h3>
+	</div>
+	<div class="modal-body">
+		<form class="form-horizontal" id="add_page_form" action="/admin/page/html" method="post">
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label" for="title">Title</label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="title" name="title">
 					</div>
-				{% endfor %}
-			</div>
-		</div>
+					<label class="control-label" for="url">URL</label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="url" name="url">
+					</div>
+					<label class="control-label" for="template">Template</label>
+					<div class="controls">
+						<select class="input-xlarge" id="template" name="template">
+							{% for tmpl in templates %}
+							<option value="{{tmpl}}">{{tmpl}}</options>
+							{% endfor %}
+						</select>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<a href="#" class="btn" data-dismiss="modal">Close</a>
+		<a id="add_page_form_submit" href="#" class="btn btn-primary" >Add page</a>
+	</div>
+</div>
+<a class="btn" data-toggle="modal" href="#add_page_dialog"><i class="icon-search"></i>Add new page</a>
+<div id="pages">
+	{% for page in pages %}
+		{{ page }}
 	{% endfor %}
 </div>
