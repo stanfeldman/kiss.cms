@@ -14,7 +14,7 @@
 				<div class="{% if loop.first %}tab-pane active{% else %}tab-pane{% endif %}" id="{{page.id}}_{{ph}}_tab">
 					<p>
 						{% if plugin_admin_page %}
-							<h3>{{ plugin_name }}</h3>
+							<legend>{{ plugin_name }}</legend>
 							{{ plugin_admin_page }}
 						{% else %}
 							<div class="tabbable">

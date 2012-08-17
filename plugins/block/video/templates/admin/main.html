@@ -8,11 +8,17 @@
 		});
 	});
 </script>
-<form id="video_block_form_{{page}}_{{placeholder}}" action="/admin/block/video/edit" method="post">
-	Link: <input type="text" name="link" value="{{link}}"><br/>
-	Source: <input type="text" name="source" value="{{source}}"><br/>
-	<input type="hidden" name="page" value="{{page}}">
-	<input type="hidden" name="placeholder" value="{{placeholder}}">
-    <input type="submit" value="Update video content" />
+<form class="form-horizontal" id="video_block_form_{{page}}_{{placeholder}}" action="/admin/block/video/edit" method="post">
+	<fieldset>
+    	<div class="control-group">
+			<label class="control-label" for="{{page}}_{{placeholder}}_video_link">Link</label>
+			<div class="controls"><input type="text" class="input-xlarge" id="{{page}}_{{placeholder}}_video_link" name="link" value="{{link}}"></div>
+			<label class="control-label" for="{{page}}_{{placeholder}}_video_source">Source</label>
+			<div class="controls"><input type="text" class="input-xlarge" id="{{page}}_{{placeholder}}_video_source" name="source" value="{{source}}"></div>
+			<input type="hidden" name="page" value="{{page}}">
+			<input type="hidden" name="placeholder" value="{{placeholder}}">
+			<div class="controls"><input type="submit" value="Update video content" /></div>
+		</div>
+	</fieldset>
 </form>
 </div>
