@@ -1,6 +1,7 @@
 from kiss.controllers.core import Controller
 from kiss.views.templates import TemplateResponse
 from kiss.views.core import Response
+from kiss.views.templates import Template
 from kiss.models import session
 from models import HtmlPage
 from kiss.core.application import Application
@@ -38,8 +39,8 @@ class ShowHtmlPageController(Controller):
 							exists = True
 							break
 			if not exists:
-				blocks.append((placeholder, None))			
-		block_plugins = PageBlockPluginInterface.plugins.keys()
+				blocks.append((placeholder, None, None))			
+		block_plugins = list(PageBlockPluginInterface.plugins.iteritems())
 		return TemplateResponse("htmlpageplugin/admin/big_page.html", {"page": page, "block_plugins": block_plugins, "blocks": blocks})
 		
 

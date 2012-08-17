@@ -7,6 +7,9 @@ from admin import AddHtmlPageController, ShowHtmlPageController, DeleteHtmlPageC
 from kiss.core.application import Application
 from jinja2 import Environment, FileSystemLoader
 import os
+import re
+from core.extensions import PageBlockPluginInterface
+from core.models import PageBlock
 
 
 class HtmlPagePlugin(Plugin):
@@ -39,9 +42,27 @@ class HtmlPagePlugin(Plugin):
 		return result
 		
 	def admin(self):
-		context = {}
-		context["pages"] = HtmlPage.query.all()
+		pages = HtmlPage.query.all()
 		if self.template_path:
-			temp_env = Environment(loader=FileSystemLoader(os.path.join(self.template_path, "user")))
-		context["templates"] = temp_env.list_templates(extensions=["html"])
-		return Template.text_by_path("htmlpageplugin/admin/main.html", context)
+			templates = Environment(loader=FileSystemLoader(os.path.join(self.template_path, "user"))).list_templates(extensions=["html"])
+		for page in pages:
+			tmpl = Application().templates_environment.loader.get_source(Application().templates_environment, page.template)
+			placeholders = re.findall(r"""{{[ ]?placeholder[ ]?\([ ]?"(?P<placeholder>[a-zA-Z0-9]+)"[ ]?\)[ ]?}}""", unicode(tmpl))
+			page.blocks = []
+			for placeholder in placeholders:
+				exists = False
+				if PageBlock.query.filter_by(page=page, placeholder=placeholder).count() > 0:
+					for block_plugin in PageBlockPluginInterface.plugins.values():
+						name = u"unknown plugin"
+						if hasattr(block_plugin, "name"):
+							name = block_plugin.name()
+						if hasattr(block_plugin, "admin"):
+							block_plugin_admin_page = block_plugin.admin(page, placeholder)
+							if block_plugin_admin_page:
+								page.blocks.append((placeholder, name, block_plugin_admin_page))
+								exists = True
+								break
+				if not exists:
+					page.blocks.append((placeholder, None, None))			
+			block_plugins = list(PageBlockPluginInterface.plugins.iteritems())
+		return Template.text_by_path("htmlpageplugin/admin/main.html", {"pages": pages, "templates": templates, "block_plugins": block_plugins})#.decode('utf-8')

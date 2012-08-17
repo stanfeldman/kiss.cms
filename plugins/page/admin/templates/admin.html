@@ -21,12 +21,12 @@
 		<div id="page_plugins_tab">
 			<div class="tabs">
 				<ul>
-					{% for name, page in plugins %}
-						<li><a href="#{{name}}_tab">{{name}}</a></li>
+					{% for page_plugin_name, page_plugin_code in plugins %}
+						<li><a href="#{{page_plugin_name}}_tab">{{page_plugin_name}}</a></li>
 					{% endfor %}
 				</ul>
-				{% for name, page in plugins %}
-					<div id="{{name}}_tab">{{page}}</div>
+				{% for page_plugin_name, page_plugin_code in plugins %}
+					<div id="{{page_plugin_name}}_tab">{{page_plugin_code}}</div>
 				{% endfor %}
 			</div>
 		</div>

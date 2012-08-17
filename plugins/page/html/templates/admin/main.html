@@ -1,6 +1,6 @@
 <script>
 $(document).ready(function() {
-    $('#html_page_admin_add_page_form').ajaxForm({ 
+    /*$('#html_page_admin_add_page_form').ajaxForm({ 
         success: function(responseText, statusText, xhr, frm) { 
             $('li.page:last').after(responseText);
         } 
@@ -12,12 +12,35 @@ $(document).ready(function() {
     	$.get(this.href,{},function(response)
     	{
     		link.parent().html(response).effect("highlight", {}, 1500);
-    		$(".accordion").accordion({ collapsible: true });
+    		$(".accordion").accordion({ collapsible: true, autoHeight: false });
     	});
+    });*/
+    $(".accordion").accordion({ collapsible: true, autoHeight: false });
+    $("#html_page_admin_add_page_form").dialog(
+    {
+		autoOpen: false,
+		height: 400,
+		width: 400,
+		modal: true,
+		buttons: 
+		{
+			"Add page": function(){},
+			"Cancel": function() { $(this).dialog("close"); }
+		}
+	});
+	$("button").button();
+    $("#html_page_admin_add_page_button").click(function()
+    {
+    	$("#html_page_admin_add_page_form").dialog("open");
     });
 });
 </script>
-<form id="html_page_admin_add_page_form" action="/admin/page/html" method="post">
+<style>
+	label, input { display:block; }
+	input, textarea, select { width:95%; }
+	fieldset { padding:0; border:0; margin-top:25px; }
+</style>
+<form id="html_page_admin_add_page_for" action="/admin/page/html" method="post">
 	Title: <input type="text" name="title"/><br/>
 	Url: <input type="text" name="url"/><br/>
 	template: 
@@ -28,8 +51,48 @@ $(document).ready(function() {
 	</select><br/>
     <input type="submit" value="Add page" /> 
 </form>
-<ul>
-{% for page in pages %}
-{%include "htmlpageplugin/admin/small_page.html" %}
-{% endfor %}
-</ul>
+<div id="html_page_admin_add_page_form" title="Add new page">
+	<form>
+		<fieldset>
+			<label for="title">Title</label>
+			<input type="text" id="title" name="title"/>
+			<label for="url">Url</label>
+			<input type="text" id="url" name="url"/>
+			<label for="template">Template</label>
+			<select id="template" name="template">
+				{% for tmpl in templates %}
+				<option value="{{tmpl}}">{{tmpl}}</options>
+				{% endfor %}
+			</select>
+		</fieldset>
+	</form>
+</div>
+<button id="html_page_admin_add_page_button">Add new page</button>
+<div class="accordion">
+	{% for page in pages %}
+		<h3><a href="#">{{ page.title }}({{ page.url }})</a></h3>
+		<div>
+			url:&nbsp;{{page.url}}<br/>
+			title:&nbsp;{{page.title}}<br/>
+			template:&nbsp;{{page.template}}<br/>
+			<div class="accordion">
+				{% for ph, plugin_name, plugin_admin_page in page.blocks %}
+					<h3><a href="#">{{ ph }}</a></h3>
+					<div>
+						{% if plugin_admin_page %}
+							<h3>{{ plugin_name }}</h3>
+							{{ plugin_admin_page }}
+						{% else %}
+							<div class="accordion">
+								{% for pl_name, pl_code in block_plugins %}
+									<h3><a href="#">{{ pl_name }}</a></h3>
+									<div>{{ pl_code.admin(page, ph) }}</div>
+								{% endfor %}
+							</div>
+						{% endif %}
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	{% endfor %}
+</div>

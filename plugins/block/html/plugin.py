@@ -10,6 +10,9 @@ class HtmlBlockPlugin(Plugin):
 	def __init__(self):
 		print "%s loaded" % self.__class__.__name__
 		
+	def name(self):
+		return _("HTML block").decode('utf-8')
+		
 	def urls(self):
 		return {
 			"admin/content/html": UpdateHtmlBlockController

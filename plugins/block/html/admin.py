@@ -24,7 +24,7 @@ class ShowHtmlBlockController(Controller):
 		context["placeholder"] = placeholder
 		try:
 			block = PageBlock.get_by(page=page, placeholder=placeholder)
-			if not isinstance(block, HtmlBlock):
+			if block and not isinstance(block, HtmlBlock):
 				return None
 			context["body"] = block.body
 		except:
