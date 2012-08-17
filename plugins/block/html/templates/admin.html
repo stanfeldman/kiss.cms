@@ -9,7 +9,7 @@
 	});
 </script>
 <form id="html_content_form_{{page}}_{{placeholder}}" action="/admin/content/html" method="post">
-	<textarea name="body" cols="20" rows="4">{{body}}</textarea><br/>
+	<textarea class="rich_text_editor" id="{{page}}_{{placeholder}}_textarea" name="body" cols="20" rows="4">{{body}}</textarea><br/>
 	<input type="hidden" name="page" value="{{page}}">
 	<input type="hidden" name="placeholder" value="{{placeholder}}">
     <input type="submit" value="Update html content" /> 
