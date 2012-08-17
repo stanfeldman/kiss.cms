@@ -38,7 +38,9 @@ class HtmlPageController(object):
 							break
 			if not exists:
 				page.blocks.append((placeholder, None, None))			
-		block_plugins = list(PageBlockPluginInterface.plugins.iteritems())
+		block_plugins = []
+		for bp_name, bp_code in PageBlockPluginInterface.plugins.iteritems():
+			block_plugins.append((bp_name, bp_code.name(), bp_code))
 		return Template.text_by_path("htmlpageplugin/admin/page.html", {"page": page, "block_plugins": block_plugins})
 		
 

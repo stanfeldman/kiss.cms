@@ -6,22 +6,30 @@
 	<div class="tabbable tabs-left">
 		<ul class="nav nav-tabs">
 			{% for ph, plugin_name, plugin_admin_page in page.blocks %}
-				<li {% if loop.first %}class="active"{% endif %}><a href="#{{ph}}_tab" data-toggle="tab">{{ph}}</a></li>
+				<li {% if loop.first %}class="active"{% endif %}><a href="#{{page.id}}_{{ph}}_tab" data-toggle="tab">{{ph}}</a></li>
 			{% endfor %}
 		</ul>
 		<div class="tab-content">
 			{% for ph, plugin_name, plugin_admin_page in page.blocks %}
-				<div class="{% if loop.first %}tab-pane active{% else %}tab-pane{% endif %}" id="{{ph}}_tab">
+				<div class="{% if loop.first %}tab-pane active{% else %}tab-pane{% endif %}" id="{{page.id}}_{{ph}}_tab">
 					<p>
 						{% if plugin_admin_page %}
 							<h3>{{ plugin_name }}</h3>
 							{{ plugin_admin_page }}
 						{% else %}
-							<div class="accordion">
-								{% for pl_name, pl_code in block_plugins %}
-									<h3><a href="#">{{ pl_name }}</a></h3>
-									<div>{{ pl_code.admin(page, ph) }}</div>
-								{% endfor %}
+							<div class="tabbable">
+								<ul class="nav nav-tabs">
+									{% for pl_name, pl_title, pl_code in block_plugins %}
+										<li {% if loop.first %}class="active"{% endif %}><a href="#{{page.id}}_{{ph}}_{{pl_name}}_tab" data-toggle="tab">{{ pl_title }}</a></li>
+									{% endfor %}
+								</ul>
+								<div class="tab-content">
+									{% for pl_name, pl_title, pl_code in block_plugins %}
+										<div class="{% if loop.first %}tab-pane active{% else %}tab-pane{% endif %}" id="{{page.id}}_{{ph}}_{{pl_name}}_tab">
+											<p>{{ pl_code.admin(page, ph) }}</p>
+										</div>
+									{% endfor %}
+								</div>
 							</div>
 						{% endif %}
 					</p>
