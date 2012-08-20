@@ -11,7 +11,7 @@ from models import VideoBlock
 class UpdateVideoBlockController(Controller):	
 	def post(self, request):
 		page = Page.get_by(id=request.form["page"])
-		video = VideoBlock.get_or_create(placeholder=request.form["placeholder"], page=page)
+		video = VideoBlock.get_or_create(plugin=u"VideoBlockPlugin", placeholder=request.form["placeholder"], page=page)
 		video.link = request.form["link"]
 		video.source = request.form["source"]
 		session.commit()

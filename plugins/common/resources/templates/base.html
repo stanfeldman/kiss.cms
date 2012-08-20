@@ -9,6 +9,7 @@
 		<link rel="icon" href="/commonresourcesplugin/images/favicon.ico" type="image/x-icon" />
 		{%block styles %}
 			<link href="/commonresourcesplugin/styles/bootstrap.css" rel="stylesheet">
+			<link href="/commonresourcesplugin/styles/jquery.wysiwyg.css" rel="stylesheet">
 		{%endblock%}
 		{%block scripts %}
 			<!--[if lt IE 9]>
@@ -17,15 +18,15 @@
 		  	<script src="/commonresourcesplugin/scripts/jquery.js"></script>
 		  	<script src="/commonresourcesplugin/scripts/jquery.livequery.js"></script>
 		  	<script src="/commonresourcesplugin/scripts/bootstrap.js"></script>
-		  	<script src="/commonresourcesplugin/scripts/nicedit.js"></script>
+		  	<script src="/commonresourcesplugin/scripts/jquery.wysiwyg.js"></script>
 		  	<script type="text/javascript">
 				$(function(){
 					$(".collapse").collapse();
 					$('.modal').modal({show: false});
-					niceditor = new nicEditor({fullPanel : true, iconsPath : '/commonresourcesplugin/images/nicEditorIcons.gif'});
 					$(".rich_text_editor").livequery(function()
 					{
-						niceditor.panelInstance($(this).attr("id"));
+						$(this).wysiwyg({i18n: { lang: "en" }});
+						$(this).wysiwyg("i18n.run", "ru");
 					});
 				});
 			</script>

@@ -13,7 +13,7 @@ from core.models import PageBlock
 class AddHtmlPageController(Controller):	
 	def post(self, request):
 		context = {}
-		page = HtmlPage(title=request.form["title"], url=request.form["url"], template="htmlpageplugin/user/" + request.form["template"])
+		page = HtmlPage(plugin=u"HtmlPagePlugin", title=request.form["title"], url=request.form["url"], template="htmlpageplugin/user/" + request.form["template"])
 		session.commit()
 		return Response(HtmlPageController().html(page))
 		

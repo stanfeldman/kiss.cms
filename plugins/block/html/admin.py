@@ -11,9 +11,11 @@ from models import HtmlBlock
 class UpdateHtmlBlockController(Controller):	
 	def post(self, request):
 		page = Page.get_by(id=request.form["page"])
-		content = HtmlBlock.get_or_create(placeholder=request.form["placeholder"], page=page)
+		print request.form
+		content = HtmlBlock.get_or_create(plugin=u"HtmlBlockPlugin", placeholder=request.form["placeholder"], page=page)
 		content.body = request.form["body"]
 		session.commit()
+		#print HtmlBlock.query.all()
 		return Response(ShowHtmlBlockController().show(page, content.placeholder))
 		
 		
