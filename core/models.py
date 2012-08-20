@@ -15,6 +15,7 @@ Entity = ExtendedEntity #monkey patch =)
 
 class Content(Entity):
 	using_options(inheritance="multi")
+	plugin = Field(Unicode, nullable=False)
 	created = ManyToOne("User", inverse="created_contents")
 	updated = ManyToOne("User", inverse="updated_contents")
 	privileges = ManyToOne("Privilege")
@@ -23,7 +24,7 @@ class Content(Entity):
 class Page(Content):
 	using_options(inheritance="multi")
 	title = Field(Unicode)
-	url = Field(Unicode)
+	url = Field(Unicode, unique=True)
 	page_blocks = OneToMany("PageBlock")
 
 

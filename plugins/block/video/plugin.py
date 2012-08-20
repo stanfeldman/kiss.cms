@@ -7,7 +7,7 @@ from admin import UpdateVideoBlockController, ShowVideoBlockController
 class VideoBlockPlugin(Plugin):
 	implements = [PageBlockPluginInterface]
 	
-	def __init__(self):
+	def load(self):
 		print "%s loaded" % self.__class__.__name__
 		
 	def name(self):
@@ -18,14 +18,8 @@ class VideoBlockPlugin(Plugin):
 			"admin/block/video/edit": UpdateVideoBlockController
 		}
 		
-	def content(self, page, placeholder):
-		result = None
-		try:
-			video = VideoBlock.get_by(page=page, placeholder=placeholder)
-			result = Template.text_by_path("videoblockplugin/user/%s.html" % video.source, {"video": video})
-		except:
-			pass
-		return result
+	def content(self, block):
+		return Template.text_by_path("videoblockplugin/user/%s.html" % block.source, {"video": block})
 		
 	def admin(self, page, placeholder):
 		return ShowVideoBlockController().show(page, placeholder)

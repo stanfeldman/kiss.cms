@@ -15,7 +15,7 @@ from core.models import PageBlock
 class HtmlPagePlugin(Plugin):
 	implements = [PagePluginInterface]
 	
-	def __init__(self):
+	def load(self):
 		print "%s loaded" % self.__class__.__name__
 		
 	def name(self):
@@ -32,10 +32,9 @@ class HtmlPagePlugin(Plugin):
 			}
 		}
 		
-	def page(self, url):
+	def content(self, page):
 		result = None
 		try:
-			page = HtmlPage.get_by(url=url)
 			result = TemplateResponse(page.template, {"page": page})
 		except:
 			pass
