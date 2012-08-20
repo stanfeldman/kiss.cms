@@ -69,9 +69,12 @@ class PageController(Controller):
 		#HtmlBlock(plugin=u"HtmlBlockPlugin", placeholder=u"header", body=u"<h1>header from db</h1>", page=p)
 		VideoBlock(plugin=u"VideoBlockPlugin", page=p, placeholder=u"content2", link=u"SLBsGIP6NTg", source=u"youtube")
 		#VideoBlock(plugin=u"VideoBlockPlugin", page=p, placeholder=u"footer", link=u"47502276", source=u"vimeo")
-		mb = MenuBlock(plugin=u"MenuBlockPlugin", placeholder=u"header", title=u"Menu1", page=p)
-		MenuItem(title=u"MenuItem 1", menu=mb, page=p)
-		MenuItem(title=u"MenuItem2", menu=mb, page=p)
+		mb = MenuBlock(plugin=u"MenuBlockPlugin", placeholder=u"header", title=u"Menu1", page=p, template=u"menublockplugin/user/hierarchical.html")
+		mi1 = MenuItem(title=u"MenuItem 1", menu=mb, page=p)
+		MenuItem(title=u"MenuItem 11", page=p, parent=mi1)
+		mi12 = MenuItem(title=u"MenuItem 12", page=p, parent=mi1)
+		MenuItem(title=u"MenuItem 121", page=p, parent=mi12)
+		MenuItem(title=u"MenuItem 2", menu=mb, page=p)
 		session.commit()
 		print "Application loaded"
 

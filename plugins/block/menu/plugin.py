@@ -12,6 +12,6 @@ class MenuBlockPlugin(Plugin):
 		return _("Menu block").decode('utf-8')
 		
 	def content(self, block):
-		return Template.text_by_path("menublockplugin/user/linear.html", {"menu": block})
+		return Template.text_by_path(block.template, {"menu": block})
 
 

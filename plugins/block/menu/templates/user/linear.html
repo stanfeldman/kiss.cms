@@ -1,6 +1,7 @@
 <div>{{ menu.title }}</div>
-<ul>
-	{% for mi in menu.menu_items %}
-		<li><a href="{{ mi.page.url }}">{{ mi.title }}</a></li>
+<div>
+	{% for mi in menu.menu_items recursive %}
+		<a href="{{ mi.page.url }}">{{ mi.title }}</a>
+		{% if loop.last %}{% else %}&nbsp;|&nbsp;{% endif %}
 	{% endfor %}
-</ul>
+</div>
