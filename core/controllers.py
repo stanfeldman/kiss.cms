@@ -5,11 +5,6 @@ import datetime
 from kiss.controllers.core import Controller
 import os
 from pyplug import PluginLoader
-### this is for test
-from plugins.block.html.models import HtmlBlock
-from plugins.block.video.models import VideoBlock
-from plugins.page.html.models import HtmlPage
-###
 from core.extensions import PagePluginInterface, PageBlockPluginInterface, PluginInterface
 from kiss.models import setup_all, drop_all, create_all, session
 from putils.dynamics import Introspector, Importer
@@ -65,11 +60,18 @@ class PageController(Controller):
 		for i in [PagePluginInterface, PageBlockPluginInterface, PluginInterface]:
 			i.load_call_all()
 		#sample data
+		from plugins.block.html.models import HtmlBlock
+		from plugins.block.video.models import VideoBlock
+		from plugins.page.html.models import HtmlPage
+		from plugins.block.menu.models import MenuBlock, MenuItem
 		p = HtmlPage(plugin=u"HtmlPagePlugin", title=u"test page", url=u"tp", template=u"htmlpageplugin/user/site_template.html")
 		HtmlBlock(plugin=u"HtmlBlockPlugin", placeholder=u"content1", body=u"<h1>test content from db</h1>", page=p)
-		HtmlBlock(plugin=u"HtmlBlockPlugin", placeholder=u"header", body=u"<h1>header from db</h1>", page=p)
+		#HtmlBlock(plugin=u"HtmlBlockPlugin", placeholder=u"header", body=u"<h1>header from db</h1>", page=p)
 		VideoBlock(plugin=u"VideoBlockPlugin", page=p, placeholder=u"content2", link=u"SLBsGIP6NTg", source=u"youtube")
 		#VideoBlock(plugin=u"VideoBlockPlugin", page=p, placeholder=u"footer", link=u"47502276", source=u"vimeo")
+		mb = MenuBlock(plugin=u"MenuBlockPlugin", placeholder=u"header", title=u"Menu1", page=p)
+		MenuItem(title=u"MenuItem 1", menu=mb, page=p)
+		MenuItem(title=u"MenuItem2", menu=mb, page=p)
 		session.commit()
 		print "Application loaded"
 

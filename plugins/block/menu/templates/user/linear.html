@@ -1,0 +1,6 @@
+<div>{{ menu.title }}</div>
+<ul>
+	{% for mi in menu.menu_items %}
+		<li><a href="{{ mi.page.url }}">{{ mi.title }}</a></li>
+	{% endfor %}
+</ul>
