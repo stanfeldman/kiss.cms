@@ -33,12 +33,7 @@ class HtmlPagePlugin(Plugin):
 		}
 		
 	def content(self, page):
-		result = None
-		try:
-			result = TemplateResponse(page.template, {"page": page})
-		except:
-			pass
-		return result
+		return Template.text_by_path(page.template, {"page": page})
 		
 	def admin(self):
 		pages = HtmlPage.query.all()

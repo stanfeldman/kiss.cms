@@ -16,6 +16,7 @@ Entity = ExtendedEntity #monkey patch =)
 class Content(Entity):
 	using_options(inheritance="multi")
 	plugin = Field(Unicode, nullable=False)
+	template = Field(Unicode)
 	created = ManyToOne("User", inverse="created_contents")
 	updated = ManyToOne("User", inverse="updated_contents")
 	privileges = ManyToOne("Privilege")

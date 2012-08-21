@@ -14,9 +14,12 @@ from models import Page
 	
 class PageController(Controller):	
 	def get(self, request):
+		if "url" not in request.params:
+			request.params["url"] = ""
 		page = Page.get_by(url=request.params["url"])
 		if page:
-			return PagePluginInterface.plugins[page.plugin].content(page)
+			content = PagePluginInterface.plugins[page.plugin].content(page)
+			return Response(content)
 		return None
 		
 	def on_before_init_server(self, application):
@@ -64,11 +67,11 @@ class PageController(Controller):
 		from plugins.block.video.models import VideoBlock
 		from plugins.page.html.models import HtmlPage
 		from plugins.block.menu.models import MenuBlock, MenuItem
-		p = HtmlPage(plugin=u"HtmlPagePlugin", title=u"test page", url=u"tp", template=u"htmlpageplugin/user/site_template.html")
+		p = HtmlPage(plugin=u"HtmlPagePlugin", title=u"test page", url=u"tp", template=u"htmlpageplugin/user/default.html")
 		HtmlBlock(plugin=u"HtmlBlockPlugin", placeholder=u"content1", body=u"<h1>test content from db</h1>", page=p)
 		#HtmlBlock(plugin=u"HtmlBlockPlugin", placeholder=u"header", body=u"<h1>header from db</h1>", page=p)
-		VideoBlock(plugin=u"VideoBlockPlugin", page=p, placeholder=u"content2", link=u"SLBsGIP6NTg", source=u"youtube")
-		#VideoBlock(plugin=u"VideoBlockPlugin", page=p, placeholder=u"footer", link=u"47502276", source=u"vimeo")
+		VideoBlock(plugin=u"VideoBlockPlugin", page=p, placeholder=u"content2", link=u"SLBsGIP6NTg", template=u"videoblockplugin/user/youtube.html")
+		#VideoBlock(plugin=u"VideoBlockPlugin", page=p, placeholder=u"footer", link=u"47502276", template=u"videoblockplugin/user/vimeo.html")
 		mb = MenuBlock(plugin=u"MenuBlockPlugin", placeholder=u"header", title=u"Menu1", page=p, template=u"menublockplugin/user/hierarchical.html")
 		mi1 = MenuItem(title=u"MenuItem 1", menu=mb, page=p)
 		MenuItem(title=u"MenuItem 11", page=p, parent=mi1)

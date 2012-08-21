@@ -15,7 +15,6 @@ class UpdateHtmlBlockController(Controller):
 		content = HtmlBlock.get_or_create(plugin=u"HtmlBlockPlugin", placeholder=request.form["placeholder"], page=page)
 		content.body = request.form["body"]
 		session.commit()
-		#print HtmlBlock.query.all()
 		return Response(ShowHtmlBlockController().show(page, content.placeholder))
 		
 		
@@ -31,4 +30,4 @@ class ShowHtmlBlockController(Controller):
 			context["body"] = block.body
 		except:
 			pass
-		return Template.text_by_path("htmlblockplugin/admin.html", context)
+		return Template.text_by_path("htmlblockplugin/admin/default.html", context)

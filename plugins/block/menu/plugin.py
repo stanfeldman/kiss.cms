@@ -13,5 +13,8 @@ class MenuBlockPlugin(Plugin):
 		
 	def content(self, block):
 		return Template.text_by_path(block.template, {"menu": block})
+		
+	def admin(self, page, placeholder):
+		return ""
 
 

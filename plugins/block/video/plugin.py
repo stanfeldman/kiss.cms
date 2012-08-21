@@ -19,7 +19,10 @@ class VideoBlockPlugin(Plugin):
 		}
 		
 	def content(self, block):
-		return Template.text_by_path("videoblockplugin/user/%s.html" % block.source, {"video": block})
+		template = "videoblockplugin/user/youtube.html"
+		if hasattr(block, "template") and block.template:
+			template = block.template
+		return Template.text_by_path(template, {"video_block": block})
 		
 	def admin(self, page, placeholder):
 		return ShowVideoBlockController().show(page, placeholder)

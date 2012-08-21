@@ -13,7 +13,7 @@ class UpdateVideoBlockController(Controller):
 		page = Page.get_by(id=request.form["page"])
 		video = VideoBlock.get_or_create(plugin=u"VideoBlockPlugin", placeholder=request.form["placeholder"], page=page)
 		video.link = request.form["link"]
-		video.source = request.form["source"]
+		video.template = request.form["template"]
 		session.commit()
 		return Response(ShowVideoBlockController().show(page, video.placeholder))
 		
@@ -28,7 +28,7 @@ class ShowVideoBlockController(Controller):
 			if video and not isinstance(video, VideoBlock):
 				return None
 			context["link"] = video.link
-			context["source"] = video.source
+			context["template"] = video.template
 		except:
 			pass
 		return Template.text_by_path("videoblockplugin/admin/main.html", context)
