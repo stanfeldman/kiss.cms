@@ -12,22 +12,25 @@ class PluginInterface(Interface):
 	"""
 	def name(self):
 		pass
-	def content(self, obj):
-		pass
-	def urls(self):
-		pass
 	def load(self):
 		pass
 	def unload(self):
 		pass
 		
 		
-class PagePluginInterface(PluginInterface):
+class ContentPluginInterface(PluginInterface):
+	def content(self, obj):
+		pass
+	def urls(self):
+		pass
+		
+		
+class PagePluginInterface(ContentPluginInterface):
 	def admin(self):
 		pass
 
 
-class PageBlockPluginInterface(PluginInterface):	
+class PageBlockPluginInterface(ContentPluginInterface):	
 	def admin(self, page, placeholder):
 		pass
 

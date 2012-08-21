@@ -5,7 +5,7 @@ import datetime
 from kiss.controllers.core import Controller
 import os
 from pyplug import PluginLoader
-from core.extensions import PagePluginInterface, PageBlockPluginInterface, PluginInterface
+from core.extensions import PagePluginInterface, PageBlockPluginInterface, PluginInterface, ContentPluginInterface
 from kiss.models import setup_all, drop_all, create_all, session
 from putils.dynamics import Introspector, Importer
 from templates import placeholder
@@ -29,7 +29,7 @@ class PageController(Controller):
 		application.templates_environment.globals["placeholder"] = placeholder	
 		#adding urls
 		application.router.add_urls({"": PageController})
-		for i in [PagePluginInterface, PageBlockPluginInterface]:
+		for i in [PagePluginInterface, PageBlockPluginInterface, ContentPluginInterface]:
 			for urls in i.urls_get_all():
 				if urls:
 					application.router.add_urls(urls)
@@ -39,7 +39,7 @@ class PageController(Controller):
 		drop_all()
 		create_all()
 		#setting some properties
-		for i in [PagePluginInterface, PageBlockPluginInterface, PluginInterface]:
+		for i in [PagePluginInterface, PageBlockPluginInterface, ContentPluginInterface, PluginInterface]:
 			for plugin_name, plugin in i.plugins.iteritems():
 				#set application ref to plugin
 				plugin.application = application
@@ -60,7 +60,7 @@ class PageController(Controller):
 					application.templater.add_translation_paths([trans_dir])
 					plugin.translation_path = trans_dir
 		#calling load in all plugins
-		for i in [PagePluginInterface, PageBlockPluginInterface, PluginInterface]:
+		for i in [PagePluginInterface, PageBlockPluginInterface, ContentPluginInterface, PluginInterface]:
 			i.load_call_all()
 		#sample data
 		from plugins.block.html.models import HtmlBlock
