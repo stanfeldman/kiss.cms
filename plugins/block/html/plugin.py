@@ -10,7 +10,7 @@ class HtmlBlockPlugin(Plugin):
 	def load(self):
 		print "%s loaded" % self.__class__.__name__
 		
-	def name(self):
+	def title(self):
 		return _("HTML block").decode('utf-8')
 		
 	def urls(self):

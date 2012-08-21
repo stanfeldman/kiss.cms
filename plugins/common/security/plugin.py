@@ -9,7 +9,7 @@ class SecurityPagePlugin(Plugin):
 	def load(self):
 		print "%s loaded" % self.__class__.__name__
 		
-	def name(self):
+	def title(self):
 		return _("security page").decode('utf-8')
 		
 	def admin(self):

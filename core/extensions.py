@@ -10,7 +10,7 @@ class PluginInterface(Interface):
 		templates
 		lang		
 	"""
-	def name(self):
+	def title(self):
 		pass
 	def load(self):
 		pass

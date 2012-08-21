@@ -8,7 +8,7 @@ class MenuBlockPlugin(Plugin):
 	def load(self):
 		print "%s loaded" % self.__class__.__name__
 		
-	def name(self):
+	def title(self):
 		return _("menu block").decode('utf-8')
 		
 	def content(self, block):
