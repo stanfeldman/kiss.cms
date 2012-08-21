@@ -9,12 +9,12 @@ class MenuBlockPlugin(Plugin):
 		print "%s loaded" % self.__class__.__name__
 		
 	def name(self):
-		return _("Menu block").decode('utf-8')
+		return _("menu block").decode('utf-8')
 		
 	def content(self, block):
 		return Template.text_by_path(block.template, {"menu": block})
 		
 	def admin(self, page, placeholder):
-		return ""
+		return "menu admin"
 
 

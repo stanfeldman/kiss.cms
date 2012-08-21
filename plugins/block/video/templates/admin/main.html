@@ -13,11 +13,21 @@
     	<div class="control-group">
 			<label class="control-label" for="{{page}}_{{placeholder}}_video_link">Link</label>
 			<div class="controls"><input type="text" class="input-xlarge" id="{{page}}_{{placeholder}}_video_link" name="link" value="{{link}}"></div>
-			<label class="control-label" for="{{page}}_{{placeholder}}_video_source">Source</label>
-			<div class="controls"><input type="text" class="input-xlarge" id="{{page}}_{{placeholder}}_video_source" name="source" value="{{source}}"></div>
+		</div>
+		<label class="control-label" for="template">Template</label>
+			<div class="controls">
+				<select class="input-xlarge" id="template" name="template">
+					{% for tmpl_name, tmpl_path in templates %}
+						<option {% if tmpl_path == template %} selected value="{{tmpl_path}}"{% else %}value="{{tmpl_path}}"{% endif %}>{{tmpl_name}}</option>
+					{% endfor %}
+				</select>
+			</div>
+		<div class="control-group">
 			<input type="hidden" name="page" value="{{page}}">
 			<input type="hidden" name="placeholder" value="{{placeholder}}">
-			<div class="controls"><input type="submit" value="Update video content" /></div>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary">Update video content</button>
+			</div>
 		</div>
 	</fieldset>
 </form>
