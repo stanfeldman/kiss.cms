@@ -26,7 +26,7 @@ class HtmlPageController(object):
 		for placeholder in placeholders:
 			exists = False
 			if PageBlock.query.filter_by(page=page, placeholder=placeholder).count() > 0:
-				for block_plugin in PageBlockPluginInterface.plugins.values():
+				for block_plugin in PageBlockPluginInterface.plugins().values():
 					name = u"unknown plugin"
 					if hasattr(block_plugin, "name"):
 						name = block_plugin.name()
@@ -39,7 +39,7 @@ class HtmlPageController(object):
 			if not exists:
 				page.blocks.append((placeholder, None, None))			
 		block_plugins = []
-		for bp_name, bp_code in PageBlockPluginInterface.plugins.iteritems():
+		for bp_name, bp_code in PageBlockPluginInterface.plugins().iteritems():
 			block_plugins.append((bp_name, bp_code.name(), bp_code))
 		return Template.text_by_path("htmlpageplugin/admin/page.html", {"page": page, "block_plugins": block_plugins})
 		

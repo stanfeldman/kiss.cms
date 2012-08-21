@@ -16,8 +16,12 @@ class AdminPagePlugin(Plugin):
 		
 	def content(self, page):
 		plugins = []
-		for pl_name, pl_code in PagePluginInterface.plugins.iteritems():
+		for pl_name, pl_code in PagePluginInterface.plugins().iteritems():
 			if pl_name != self.__class__.__name__:
-				plugins.append((pl_name, pl_code.name(), pl_code.admin()))
+				pl_title = "Unknown plugin"
+				if hasattr(pl_code, "name"):
+					pl_title = pl_code.name()
+				if hasattr(pl_code, "admin"):
+					plugins.append((pl_name, pl_title, pl_code.admin()))
 		return Template.text_by_path("adminpageplugin/admin.html", {"plugins": plugins})
 

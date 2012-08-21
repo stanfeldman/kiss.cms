@@ -11,6 +11,4 @@ class SecurityPagePlugin(Plugin):
 		
 	def name(self):
 		return _("security page").decode('utf-8')
-		
-	def admin(self):
-		return "security admin"
+

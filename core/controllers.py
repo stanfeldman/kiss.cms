@@ -18,7 +18,7 @@ class PageController(Controller):
 			request.params["url"] = ""
 		page = Page.get_by(url=request.params["url"])
 		if page:
-			content = PagePluginInterface.plugins[page.plugin].content(page)
+			content = PagePluginInterface.plugins()[page.plugin].content(page)
 			return Response(content)
 		return None
 		
@@ -29,39 +29,36 @@ class PageController(Controller):
 		application.templates_environment.globals["placeholder"] = placeholder	
 		#adding urls
 		application.router.add_urls({"": PageController})
-		for i in [PagePluginInterface, PageBlockPluginInterface, ContentPluginInterface]:
-			for urls in i.urls_get_all():
-				if urls:
-					application.router.add_urls(urls)
+		for urls in ContentPluginInterface.urls_get_all():
+			if urls:
+				application.router.add_urls(urls)
 		application.router.add_urls({"(?P<url>.+)": PageController})
 		#creating db
 		setup_all()
 		drop_all()
 		create_all()
 		#setting some properties
-		for i in [PagePluginInterface, PageBlockPluginInterface, ContentPluginInterface, PluginInterface]:
-			for plugin_name, plugin in i.plugins.iteritems():
-				#set application ref to plugin
-				plugin.application = application
-				plugin_dir = os.path.dirname(Importer.object_path(plugin))
-				#adding templates paths
-				templates_dir = os.path.join(plugin_dir, "templates")
-				if os.path.exists(templates_dir):
-					application.templater.add_template_paths([templates_dir], plugin_name.lower())
-					plugin.template_path = templates_dir
-				#adding static paths
-				static_dir = os.path.join(plugin_dir, "static")
-				if os.path.exists(static_dir):
-					application.add_static([static_dir], url_path="/" + plugin_name.lower())
-					plugin.static_path = static_dir
-				#adding translation paths
-				trans_dir = os.path.join(plugin_dir, "lang")
-				if os.path.exists(trans_dir):
-					application.templater.add_translation_paths([trans_dir])
-					plugin.translation_path = trans_dir
+		for plugin_name, plugin in PluginInterface.plugins().iteritems():
+			#set application ref to plugin
+			plugin.application = application
+			plugin_dir = os.path.dirname(Importer.object_path(plugin))
+			#adding templates paths
+			templates_dir = os.path.join(plugin_dir, "templates")
+			if os.path.exists(templates_dir):
+				application.templater.add_template_paths([templates_dir], plugin_name.lower())
+				plugin.template_path = templates_dir
+			#adding static paths
+			static_dir = os.path.join(plugin_dir, "static")
+			if os.path.exists(static_dir):
+				application.add_static([static_dir], url_path="/" + plugin_name.lower())
+				plugin.static_path = static_dir
+			#adding translation paths
+			trans_dir = os.path.join(plugin_dir, "lang")
+			if os.path.exists(trans_dir):
+				application.templater.add_translation_paths([trans_dir])
+				plugin.translation_path = trans_dir
 		#calling load in all plugins
-		for i in [PagePluginInterface, PageBlockPluginInterface, ContentPluginInterface, PluginInterface]:
-			i.load_call_all()
+		PluginInterface.load_call_all()
 		#sample data
 		from plugins.block.html.models import HtmlBlock
 		from plugins.block.video.models import VideoBlock
