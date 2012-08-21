@@ -21,7 +21,14 @@
 		  	<script src="/commonresourcesplugin/scripts/jquery.wysiwyg.js"></script>
 		  	<script type="text/javascript">
 				$(function(){
-					$(".collapse").collapse();
+					//$(".collapse").collapse();
+					//inner accordion hack, initialize only on open
+					$('.tabbable .nav a').click(function (e) {
+				      e.preventDefault();
+				      var $this = $(this).tab('show');
+				        var $target = $($this.attr('data-target'));
+				        $target.find('.collapse').collapse().height("auto");
+				    });
 					$('.modal').modal({show: false});
 					$(".rich_text_editor").livequery(function()
 					{

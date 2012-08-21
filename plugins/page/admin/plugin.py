@@ -23,5 +23,7 @@ class AdminPagePlugin(Plugin):
 					pl_title = pl_code.name()
 				if hasattr(pl_code, "admin"):
 					plugins.append((pl_name, pl_title, pl_code.admin()))
-		return Template.text_by_path("adminpageplugin/admin.html", {"plugins": plugins})
+		return Template.text_by_path("adminpageplugin/default.html", {"plugins": plugins})
+		#{% if loop.first %}class="active"{% endif %}
+		#{% if loop.first %}tab-pane active{% else %}tab-pane{% endif %}
 

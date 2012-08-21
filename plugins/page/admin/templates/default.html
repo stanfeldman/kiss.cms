@@ -22,21 +22,30 @@
 							{% for page_plugin_name, page_plugin_title, page_plugin_code in plugins %}
 								<li {% if loop.first %}class="active"{% endif %}><a href="#{{page_plugin_name}}_tab" data-toggle="tab">{{page_plugin_title}}</a></li>
 							{% endfor %}
-							<li><a href="#plugin2_tab" data-toggle="tab">Plugin 2 tab</a></li>
 						</ul>
 						<div class="tab-content">
 							{% for page_plugin_name, page_plugin_title, page_plugin_code in plugins %}
 								<div class="{% if loop.first %}tab-pane active{% else %}tab-pane{% endif %}" id="{{page_plugin_name}}_tab"><p>{{page_plugin_code}}</p></div>
 							{% endfor %}
-							<div class="tab-pane" id="plugin2_tab">
-								<p>Plugin 2 content</p>
-							</div>
 						</div>
 					</div>
 				</p>
 			</div>
 			<div class="tab-pane" id="users_tab">
-				<p>Howdy, I'm in Section 2.</p>
+				<p>
+					<div class="accordion">
+						<div class="accordion-group">
+							<div class="accordion-heading">
+								<a class="accordion-toggle" data-toggle="collapse" data-target="#collapse1">collapse1</a>
+							</div>
+							<div id="collapse1" class="accordion-body collapse">
+								<div class="accordion-inner">
+									hey
+								</div>
+							</div>
+						</div>
+					</div>
+				</p>
 			</div>
 		</div>
 	</div>
