@@ -1,6 +1,6 @@
 from pyplug import Plugin
 from core.extensions import PagePluginInterface
-from core.models import Page
+from core.models.content import Page
 from kiss.models import session
 from kiss.views.templates import Template
 import os
@@ -10,7 +10,7 @@ class AdminPagePlugin(Plugin):
 	implements = [PagePluginInterface]
 	
 	def load(self):
-		Page(plugin=self.__class__.__name__, title=u"Admin page", url=u"admin")
+		Page(plugin=self.db_instance, title=u"Admin page", url=u"admin", template="adminpageplugin/default.html")
 		session.commit()
 		print "%s loaded" % self.__class__.__name__
 		
@@ -23,7 +23,7 @@ class AdminPagePlugin(Plugin):
 					pl_title = pl_code.title()
 				if hasattr(pl_code, "admin"):
 					plugins.append((pl_name, pl_title, pl_code.admin()))
-		return Template.text_by_path("adminpageplugin/default.html", {"plugins": plugins})
+		return Template.text_by_path(page.template, {"plugins": plugins})
 		#{% if loop.first %}class="active"{% endif %}
 		#{% if loop.first %}tab-pane active{% else %}tab-pane{% endif %}
 

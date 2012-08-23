@@ -1,4 +1,4 @@
-from core.models import Page, PageBlock
+from core.models.content import Page, PageBlock
 from kiss.models import Entity, Field, Unicode, using_options, OneToMany, ManyToOne
 
 

@@ -1,21 +1,15 @@
 from kiss.models import Entity, Field, Unicode, Integer, OneToOne, OneToMany, ManyToOne, using_options, session
+from core.models.security import Resource
 
 
-class ExtendedEntity(Entity):
-	@classmethod
-	def get_or_create(cls, **kwargs):
-		instance = session.query(cls).filter_by(**kwargs).first()
-		if instance:
-			return instance
-		else:
-			instance = cls(**kwargs)
-			return instance
-Entity = ExtendedEntity #monkey patch =)
-
+class Plugin(Resource):
+	using_options(inheritance="multi")
+	name = Field(Unicode, primary_key=True)
+	contents = OneToMany("Content")
 
 class Content(Entity):
 	using_options(inheritance="multi")
-	plugin = Field(Unicode, nullable=False)
+	plugin = ManyToOne("Plugin")
 	template = Field(Unicode)
 
 

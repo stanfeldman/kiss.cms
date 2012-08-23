@@ -1,4 +1,4 @@
-from core.models import PageBlock
+from core.models.content import PageBlock
 from kiss.models import Field, Unicode, using_options
 
 

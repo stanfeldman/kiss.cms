@@ -1,38 +1,26 @@
-from kiss.views.templates import TemplateResponse
-from kiss.views.core import Response
-from kiss.core.events import Eventer
-import datetime
-from kiss.controllers.core import Controller
 import os
 from pyplug import PluginLoader
-from core.extensions import PagePluginInterface, PageBlockPluginInterface, PluginInterface, ContentPluginInterface
+from core.extensions import PluginInterface, ContentPluginInterface
 from kiss.models import setup_all, drop_all, create_all, session
-from putils.dynamics import Introspector, Importer
-from templates import placeholder
-from models import Page
+from putils.dynamics import Importer
+from core.views.templates import placeholder
+from router import RouterController
+from core.models.content import Plugin
+from core.models.security import *
 
 	
-class PageController(Controller):	
-	def get(self, request):
-		if "url" not in request.params:
-			request.params["url"] = ""
-		page = Page.get_by(url=request.params["url"])
-		if page:
-			content = PagePluginInterface.plugins()[page.plugin].content(page)
-			return Response(content)
-		return None
-		
+class Loader(object):
 	def on_before_init_server(self, application):
 		#loading plugins
 		for p in application.options["plugins"]["path"]:
 			PluginLoader.load(p)
 		application.templates_environment.globals["placeholder"] = placeholder	
 		#adding urls
-		application.router.add_urls({"": PageController})
+		application.router.add_urls({"": RouterController})
 		for urls in ContentPluginInterface.urls_get_all():
 			if urls:
 				application.router.add_urls(urls)
-		application.router.add_urls({"(?P<url>.+)": PageController})
+		application.router.add_urls({"(?P<url>.+)": RouterController})
 		#creating db
 		setup_all()
 		drop_all()
@@ -57,6 +45,9 @@ class PageController(Controller):
 			if os.path.exists(trans_dir):
 				application.templater.add_translation_paths([trans_dir])
 				plugin.translation_path = trans_dir
+			#register plugin in db
+			pl_in_db = Plugin.get_or_create(name=plugin_name)
+			plugin.db_instance = pl_in_db
 		#calling load in all plugins
 		PluginInterface.load_call_all()
 		#sample data
@@ -64,18 +55,23 @@ class PageController(Controller):
 		from plugins.block.video.models import VideoBlock
 		from plugins.page.html.models import HtmlPage
 		from plugins.block.menu.models import MenuBlock, MenuItem
-		p = HtmlPage(plugin=u"HtmlPagePlugin", title=u"test page", url=u"tp", template=u"htmlpageplugin/user/default.html")
-		HtmlBlock(plugin=u"HtmlBlockPlugin", placeholder=u"content1", body=u"<h1>test content from db</h1>", page=p)
+		p = HtmlPage(plugin=Plugin.get_by(name=u"HtmlPagePlugin"), title=u"test page", url=u"tp", template=u"htmlpageplugin/user/default.html")
+		HtmlBlock(plugin=Plugin.get_by(name=u"HtmlBlockPlugin"), placeholder=u"content1", body=u"<h1>test content from db</h1>", page=p)
 		#HtmlBlock(plugin=u"HtmlBlockPlugin", placeholder=u"header", body=u"<h1>header from db</h1>", page=p)
-		VideoBlock(plugin=u"VideoBlockPlugin", page=p, placeholder=u"content2", link=u"SLBsGIP6NTg", template=u"videoblockplugin/user/youtube.html")
+		VideoBlock(plugin=Plugin.get_by(name=u"VideoBlockPlugin"), page=p, placeholder=u"content2", link=u"SLBsGIP6NTg", template=u"videoblockplugin/user/youtube.html")
 		#VideoBlock(plugin=u"VideoBlockPlugin", page=p, placeholder=u"footer", link=u"47502276", template=u"videoblockplugin/user/vimeo.html")
-		mb = MenuBlock(plugin=u"MenuBlockPlugin", placeholder=u"header", title=u"Menu1", page=p, template=u"menublockplugin/user/hierarchical.html")
+		mb = MenuBlock(plugin=Plugin.get_by(name=u"MenuBlockPlugin"), placeholder=u"header", title=u"Menu1", page=p, template=u"menublockplugin/user/hierarchical.html")
 		mi1 = MenuItem(title=u"MenuItem 1", menu=mb, page=p)
 		MenuItem(title=u"MenuItem 11", page=p, parent=mi1)
 		mi12 = MenuItem(title=u"MenuItem 12", page=p, parent=mi1)
 		MenuItem(title=u"MenuItem 121", page=p, parent=mi12)
 		MenuItem(title=u"MenuItem 2", menu=mb, page=p)
+		#security
+		group1 = UserGroup(name="admins")
+		privilege1 = Privilege(name="read")
+		permission = Permission(resource=Plugin.get_by(name=u"HtmlPagePlugin"), privilege=privilege1, user_group=group1)
+		user1 = User(name="stas", user_group=group1)
 		session.commit()
-		print "Application loaded"
+		print "Application loaded(%d plugins)" % len(PluginInterface.plugins())
 
 

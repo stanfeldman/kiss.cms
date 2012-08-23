@@ -7,7 +7,7 @@ from models import HtmlPage
 from kiss.core.application import Application
 import re
 from core.extensions import PageBlockPluginInterface
-from core.models import PageBlock
+from core.models.content import PageBlock
 
 
 class AddHtmlPageController(Controller):	

@@ -9,7 +9,6 @@ from jinja2 import Environment, FileSystemLoader
 import os
 import re
 from core.extensions import PageBlockPluginInterface
-from core.models import PageBlock
 
 
 class HtmlPagePlugin(Plugin):

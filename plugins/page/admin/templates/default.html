@@ -6,9 +6,53 @@
 	{{ super() }}
 	<script src="/commonresourcesplugin/scripts/jquery.effects.js"></script>
 	<script src="/commonresourcesplugin/scripts/jquery.form.js"></script>
+	<script>
+		$('.affix').affix({
+		  offset: {
+		    top: function () { return $window.width() <= 980 ? 290 : 210 }
+		  , bottom: 270
+		  }
+		})
+	</script>
 {% endblock %}
 
 {% block content %}
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="brand" href="#"><img src="/commonresourcesplugin/images/logo.png" width="80px">&nbsp;Admin panel</a>
+				<ul class="nav">
+					<li class="active"><a href="#components">Components</a></li>
+					<li><a href="#modules">Modules</a></li>
+					<li><a href="#plugins">Plugins</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row" style="padding-top: 50px;">
+			<div class="span3" id="components">
+				<ul class="nav nav-tabs nav-stacked">
+					<li class="active"><a href="#c1">Component1</a></li>
+					<li><a href="#c2">Component2</a></li>
+				</ul>		
+			</div>
+			<div class="span9" id="plugins">
+				<a href="#c2"><div class="well" id="c1">C1 body</div></a>
+				<button class="btn btn-large btn-info" type="button">Large button</button>
+				<div id="c2">C2 body</div>
+				<ul class="thumbnails">
+					<li class="span4">
+						<a href="#" class="thumbnail">
+							<img src="http://placehold.it/300x200" alt="">
+							<h3>Thumbnail label</h3>
+							<p>Thumbnail caption...</p>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
 	<div class="tabbable"> <!-- top -->
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="#page_plugins_tab" data-toggle="tab">{{ngettext("plugin", "plugins", 2)|title}}</a></li>
