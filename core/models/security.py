@@ -24,13 +24,16 @@ class UserGroup(Entity):
 	users = OneToMany("User")
 
 
-class Resource(Entity):
+class SecureResource(Entity):
+	"""
+	Secure resource, this is can be content or module
+	"""
 	using_options(inheritance="multi")
 	permissions = OneToMany("Permission")
 	
 	
 class Permission(Entity):
 	name = Field(Unicode) #read, write, approve, etc
-	resource = ManyToOne("Resource")
+	resource = ManyToOne("SecureResource")
 	user_group = ManyToOne("UserGroup")
 

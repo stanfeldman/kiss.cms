@@ -1,8 +1,8 @@
 from kiss.models import Entity, Field, Unicode, Integer, OneToOne, OneToMany, ManyToOne, using_options, session
-from core.models.security import Resource
+from core.models.security import SecureResource
 
 
-class Plugin(Resource):
+class Plugin(SecureResource):
 	using_options(inheritance="multi")
 	name = Field(Unicode, primary_key=True)
 	contents = OneToMany("Content")
