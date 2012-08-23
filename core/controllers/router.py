@@ -11,7 +11,7 @@ class RouterController(Controller):
 			request.params["url"] = ""
 		page = Page.get_by(url=request.params["url"])
 		if page:
-			print User.get_by(id=1).has_permission(page.plugin, "read")
+			print User.get_by(id=1).has_permission("read", page.plugin)
 			content = PagePluginInterface.plugins()[page.plugin.name].content(page)
 			return Response(content)
 		return None

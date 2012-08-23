@@ -68,8 +68,7 @@ class Loader(object):
 		MenuItem(title=u"MenuItem 2", menu=mb, page=p)
 		#security
 		group1 = UserGroup(name="admins")
-		privilege1 = Privilege(name="read")
-		permission = Permission(resource=Plugin.get_by(name=u"HtmlPagePlugin"), privilege=privilege1, user_group=group1)
+		permission = Permission(name="read", resource=Plugin.get_by(name=u"HtmlPagePlugin"), user_group=group1)
 		user1 = User(name="stas", user_group=group1)
 		session.commit()
 		print "Application loaded(%d plugins)" % len(PluginInterface.plugins())
