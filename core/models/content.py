@@ -7,7 +7,7 @@ class Plugin(SecureResource):
 	name = Field(Unicode, primary_key=True)
 	contents = OneToMany("Content")
 
-class Content(Entity):
+class Content(SecureResource):
 	using_options(inheritance="multi")
 	plugin = ManyToOne("Plugin")
 	template = Field(Unicode)

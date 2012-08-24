@@ -4,7 +4,7 @@ from core.extensions import PluginInterface, ContentPluginInterface
 from kiss.models import setup_all, drop_all, create_all, session
 from putils.dynamics import Importer, Introspector
 from core.views.templates import placeholder
-from router import RouterController, ApiController
+from router import PageRouter, ApiRouter
 from core.models.content import Plugin, Page
 from core.models.security import User, UserGroup, Permission
 
@@ -20,8 +20,8 @@ class Loader(object):
 		for urls in ContentPluginInterface.urls_get_all():
 			if urls:
 				application.router.add_urls(urls)
-		application.router.add_urls({"(?P<name>.+)": RouterController})
-		application.router.add_urls({"api/(?P<plugin>.+)/(?P<controller>.+)": ApiController})
+		application.router.add_urls({"page/(?P<name>.+)": PageRouter})
+		application.router.add_urls({"api/(?P<plugin>.+)/(?P<controller>.+)": ApiRouter})
 		#creating db
 		setup_all()
 		drop_all()
@@ -52,7 +52,7 @@ class Loader(object):
 		#calling load in all plugins
 		PluginInterface.load_call_all()
 		#adding admin page
-		Page(plugin=Plugin.get_by(name=u"adminpageplugin"), title=u"Admin page", name=u"admin", template="adminpageplugin/default.html")
+		admin_page = Page(plugin=Plugin.get_by(name=u"adminpageplugin"), title=u"Admin page", name=u"admin", template="adminpageplugin/default.html")
 		#sample data
 		from plugins.block.html.models import HtmlBlock
 		from plugins.block.video.models import VideoBlock
@@ -70,9 +70,12 @@ class Loader(object):
 		MenuItem(title=u"MenuItem 121", page=p, parent=mi12)
 		MenuItem(title=u"MenuItem 2", menu=mb, page=p)
 		#security
-		group1 = UserGroup(name="admins")
-		permission = Permission(name="read", resource=Plugin.get_by(name=u"htmlpageplugin"), user_group=group1)
-		user1 = User(name="stas", user_group=group1)
+		manager_group = UserGroup(name="users")
+		admin_group = UserGroup(name="admins", parent=manager_group)
+		permission = Permission(resource=admin_page, user_group=manager_group)
+		admin_user = User(name="admin", user_group=admin_group)
+		manager_user = User(name="stas", user_group=manager_group)
+		simple_user = User(name="boris")
 		session.commit()
 		print "Application loaded(%d plugins)" % len(PluginInterface.plugins())
 

@@ -6,18 +6,20 @@ from core.models.security import User
 import inspect
 
 	
-class RouterController(Controller):	
+class PageRouter(Controller):	
 	def get(self, request):
 		if "name" not in request.params or not request.params["name"]:
 			return None
 		page = Page.get_by(name=request.params["name"])
 		if not page:
 			return None
-		#print User.get_by(id=1).has_permission("read", page.plugin)
+		print "admin", User.get_by(id=1).has_access(page)
+		print "manager", User.get_by(id=2).has_access(page)
+		print "simple user", User.get_by(id=3).has_access(page)
 		content = PagePluginInterface.plugin(page.plugin.name, fullname=False, ignorecase=True).content(page)
 		return content
 		
-class ApiController(Controller):	
+class ApiRouter(Controller):	
 	def get(self, request):
 		controller = self.get_controller(request)
 		return controller.get(request)
