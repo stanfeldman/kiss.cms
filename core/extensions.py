@@ -1,4 +1,5 @@
 from pyplug import Interface
+from kiss.controllers.core import Controller
 	
 
 class PluginInterface(Interface):
@@ -23,7 +24,13 @@ class ContentPluginInterface(PluginInterface):
 		pass
 	def urls(self):
 		pass
+	def api(self):
+		pass
 		
+		
+class ApiPluginInterface(Interface, Controller):
+	pass
+
 		
 class PagePluginInterface(ContentPluginInterface):
 	def admin(self):

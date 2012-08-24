@@ -16,7 +16,7 @@ class Content(Entity):
 class Page(Content):
 	using_options(inheritance="multi")
 	title = Field(Unicode)
-	url = Field(Unicode, unique=True)
+	name = Field(Unicode, unique=True)
 	page_blocks = OneToMany("PageBlock")
 
 

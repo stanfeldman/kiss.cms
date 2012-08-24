@@ -8,7 +8,7 @@ def placeholder(context, placeholder):
 	page = context["page"]
 	block = PageBlock.get_by(page=page, placeholder=placeholder)
 	if block:
-		cnt = PageBlockPluginInterface.plugins()[block.plugin.name].content(block)
+		cnt = PageBlockPluginInterface.plugin(block.plugin.name, fullname=False, ignorecase=True).content(block)
 		return Markup(cnt)
 	return Markup("")
 

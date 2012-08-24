@@ -7,13 +7,13 @@ from models import HtmlPage
 from kiss.core.application import Application
 import re
 from core.extensions import PageBlockPluginInterface
-from core.models.content import PageBlock
+from core.models.content import Plugin, PageBlock
 
 
 class AddHtmlPageController(Controller):	
 	def post(self, request):
 		context = {}
-		page = HtmlPage(plugin=u"HtmlPagePlugin", title=request.form["title"], url=request.form["url"], template="htmlpageplugin/user/" + request.form["template"])
+		page = HtmlPage(plugin=Plugin.get_by(name=u"htmlpageplugin"), title=request.form["title"], name=request.form["name"], template="htmlpageplugin/user/" + request.form["template"])
 		session.commit()
 		return Response(HtmlPageController().html(page))
 		
@@ -26,7 +26,7 @@ class HtmlPageController(object):
 		for placeholder in placeholders:
 			exists = False
 			if PageBlock.query.filter_by(page=page, placeholder=placeholder).count() > 0:
-				for block_plugin in PageBlockPluginInterface.plugins().values():
+				for block_plugin in PageBlockPluginInterface.plugins():
 					title = u"unknown plugin"
 					if hasattr(block_plugin, "title"):
 						title = block_plugin.title()
@@ -39,7 +39,7 @@ class HtmlPageController(object):
 			if not exists:
 				page.blocks.append((placeholder, None, None))			
 		block_plugins = []
-		for bp_name, bp_code in PageBlockPluginInterface.plugins().iteritems():
+		for bp_name, bp_code in PageBlockPluginInterface.plugins_and_names(fullname=False, lowercase=True):
 			block_plugins.append((bp_name, bp_code.title(), bp_code))
 		return Template.text_by_path("htmlpageplugin/admin/page.html", {"page": page, "block_plugins": block_plugins})
 		

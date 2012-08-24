@@ -20,19 +20,13 @@ class HtmlPagePlugin(Plugin):
 	def title(self):
 		return "HTML %s" % _("page").decode('utf-8')
 		
-	def urls(self):
+	def api(self):
 		return {
-			"admin/page/html": {
-				"": AddHtmlPageController,
-				"(?P<page>\d+)": {
-					"": HtmlPageController,
-					"delete": DeleteHtmlPageController
-				}
-			}
+			"add": AddHtmlPageController
 		}
 		
 	def content(self, page):
-		return Template.text_by_path(page.template, {"page": page})
+		return TemplateResponse(page.template, {"page": page})
 		
 	def admin(self):
 		pages = HtmlPage.query.all()
