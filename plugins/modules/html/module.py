@@ -2,7 +2,7 @@ from pyplug import Plugin
 from core.extensions import ModuleInterface
 from models import HtmlBlock
 from kiss.views.templates import Template
-from admin import UpdateHtmlBlockController, ShowHtmlBlockController
+from core.models.content import PageBlock
 
 class HtmlBlockModule(Plugin):
 	implements = [ModuleInterface]
@@ -13,14 +13,22 @@ class HtmlBlockModule(Plugin):
 	def title(self):
 		return _("HTML block").decode('utf-8')
 		
-	def urls(self):
-		return {
-			"admin/content/html": UpdateHtmlBlockController
-		}
-		
 	def content(self, block):
 		return block.body
 		
 	def admin(self, page, placeholder):
-		return ShowHtmlBlockController().show(page, placeholder)
+		return self.edit(page, placeholder)
+		
+	def edit(self, page, placeholder):
+		context = {}
+		context["page"] = page.id
+		context["placeholder"] = placeholder
+		try:
+			block = PageBlock.get_by(page=page, placeholder=placeholder)
+			if block and not isinstance(block, HtmlBlock):
+				return None
+			context["body"] = block.body
+		except:
+			pass
+		return Template.text_by_path("htmlblockmodule/admin/default.html", context)
 

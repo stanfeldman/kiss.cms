@@ -25,7 +25,7 @@ class ApiRouter(Controller):
 			return None
 		plugin_name = request.params["plugin"]
 		plugin = ApiInterface.plugin(plugin_name, fullname=False, ignorecase=True)
-		pl_db = Plugin.get_by(name=plugin_name)
+		pl_db = plugin.db_instance
 		print "admin", User.get_by(id=1).has_access(pl_db)
 		print "manager", User.get_by(id=2).has_access(pl_db)
 		print "simple user", User.get_by(id=3).has_access(pl_db)
