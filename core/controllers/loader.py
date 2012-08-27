@@ -1,6 +1,6 @@
 import os
 from pyplug import PluginLoader
-from core.extensions import PluginInterface, ContentPluginInterface
+from core.extensions import PluginInterface, ContentInterface
 from kiss.models import setup_all, drop_all, create_all, session
 from putils.dynamics import Importer, Introspector
 from core.views.templates import placeholder
@@ -17,7 +17,7 @@ class Loader(object):
 		application.templates_environment.globals["placeholder"] = placeholder	
 		#adding urls
 		#application.router.add_urls({"": RouterController})
-		for urls in ContentPluginInterface.urls_get_all():
+		for urls in ContentInterface.urls_get_all():
 			if urls:
 				application.router.add_urls(urls)
 		application.router.add_urls({"page/(?P<name>.+)": PageRouter})
@@ -52,18 +52,18 @@ class Loader(object):
 		#calling load in all plugins
 		PluginInterface.load_call_all()
 		#adding admin page
-		admin_page = Page(plugin=Plugin.get_by(name=u"adminpageplugin"), title=u"Admin page", name=u"admin", template="adminpageplugin/default.html")
+		admin_page = Page(plugin=Plugin.get_by(name=u"adminpagecomponent"), title=u"Admin page", name=u"admin", template="adminpagecomponent/default.html")
 		#sample data
-		from plugins.block.html.models import HtmlBlock
-		from plugins.block.video.models import VideoBlock
-		from plugins.page.html.models import HtmlPage
-		from plugins.block.menu.models import MenuBlock, MenuItem
-		p = HtmlPage(plugin=Plugin.get_by(name=u"htmlpageplugin"), title=u"test page", name=u"test", template=u"htmlpageplugin/user/default.html")
-		HtmlBlock(plugin=Plugin.get_by(name=u"htmlblockplugin"), placeholder=u"content1", body=u"<h1>test content from db</h1>", page=p)
+		from plugins.modules.html.models import HtmlBlock
+		from plugins.modules.video.models import VideoBlock
+		from plugins.components.html.models import HtmlPage
+		from plugins.modules.menu.models import MenuBlock, MenuItem
+		p = HtmlPage(plugin=Plugin.get_by(name=u"htmlpagecomponent"), title=u"test page", name=u"test", template=u"htmlpagecomponent/user/default.html")
+		HtmlBlock(plugin=Plugin.get_by(name=u"htmlblockmodule"), placeholder=u"content1", body=u"<h1>test content from db</h1>", page=p)
 		#HtmlBlock(plugin=u"HtmlBlockPlugin", placeholder=u"header", body=u"<h1>header from db</h1>", page=p)
-		VideoBlock(plugin=Plugin.get_by(name=u"videoblockplugin"), page=p, placeholder=u"content2", link=u"SLBsGIP6NTg", template=u"videoblockplugin/user/youtube.html")
+		VideoBlock(plugin=Plugin.get_by(name=u"videoblockmodule"), page=p, placeholder=u"content2", link=u"SLBsGIP6NTg", template=u"videoblockmodule/user/youtube.html")
 		#VideoBlock(plugin=u"VideoBlockPlugin", page=p, placeholder=u"footer", link=u"47502276", template=u"videoblockplugin/user/vimeo.html")
-		mb = MenuBlock(plugin=Plugin.get_by(name=u"menublockplugin"), placeholder=u"header", title=u"Menu1", page=p, template=u"menublockplugin/user/hierarchical.html")
+		mb = MenuBlock(plugin=Plugin.get_by(name=u"menublockmodule"), placeholder=u"header", title=u"Menu1", page=p, template=u"menublockmodule/user/hierarchical.html")
 		mi1 = MenuItem(title=u"MenuItem 1", menu=mb, page=p)
 		MenuItem(title=u"MenuItem 11", page=p, parent=mi1)
 		mi12 = MenuItem(title=u"MenuItem 12", page=p, parent=mi1)
@@ -73,7 +73,7 @@ class Loader(object):
 		manager_group = UserGroup(name="users")
 		admin_group = UserGroup(name="admins", parent=manager_group)
 		permission_for_admin_page = Permission(resource=admin_page, user_group=manager_group)
-		permission_for_plugin = Permission(resource=Plugin.get_by(name=u"addhtmlpage"), user_group=manager_group)
+		permission_for_plugin = Permission(resource=Plugin.get_by(name=u"htmlpageadminapi"), user_group=manager_group)
 		admin_user = User(name="admin", user_group=admin_group)
 		manager_user = User(name="stas", user_group=manager_group)
 		simple_user = User(name="boris")

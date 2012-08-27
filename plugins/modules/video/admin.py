@@ -28,7 +28,7 @@ class ShowVideoBlockController(Controller):
 		templates = []
 		template_names = Environment(loader=FileSystemLoader(os.path.join(os.path.dirname(os.path.abspath(__file__)), "templates/user"))).list_templates(extensions=["html"])
 		for tn in template_names:
-			templates.append((tn, "videoblockplugin/user/"+tn))
+			templates.append((tn, "videoblockmodule/user/"+tn))
 		context["templates"] = templates
 		try:
 			video = PageBlock.get_by(page=page, placeholder=placeholder)
@@ -38,4 +38,4 @@ class ShowVideoBlockController(Controller):
 			context["template"] = video.template
 		except:
 			pass
-		return Template.text_by_path("videoblockplugin/admin/main.html", context)
+		return Template.text_by_path("videoblockmodule/admin/main.html", context)

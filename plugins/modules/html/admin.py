@@ -30,4 +30,4 @@ class ShowHtmlBlockController(Controller):
 			context["body"] = block.body
 		except:
 			pass
-		return Template.text_by_path("htmlblockplugin/admin/default.html", context)
+		return Template.text_by_path("htmlblockmodule/admin/default.html", context)

@@ -1,9 +1,9 @@
 from pyplug import Plugin
-from core.extensions import PageBlockPluginInterface
+from core.extensions import ModuleInterface
 from kiss.views.templates import Template
 
-class MenuBlockPlugin(Plugin):
-	implements = [PageBlockPluginInterface]
+class MenuBlockModule(Plugin):
+	implements = [ModuleInterface]
 	
 	def load(self):
 		print "%s loaded" % self.__class__.__name__

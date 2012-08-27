@@ -1,11 +1,11 @@
 from pyplug import Plugin
-from core.extensions import PageBlockPluginInterface
+from core.extensions import ModuleInterface
 from models import HtmlBlock
 from kiss.views.templates import Template
 from admin import UpdateHtmlBlockController, ShowHtmlBlockController
 
-class HtmlBlockPlugin(Plugin):
-	implements = [PageBlockPluginInterface]
+class HtmlBlockModule(Plugin):
+	implements = [ModuleInterface]
 	
 	def load(self):
 		print "%s loaded" % self.__class__.__name__

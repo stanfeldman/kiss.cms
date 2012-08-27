@@ -1,11 +1,11 @@
 from pyplug import Plugin
-from core.extensions import PageBlockPluginInterface
+from core.extensions import ModuleInterface
 from models import VideoBlock
 from kiss.views.templates import Template
 from admin import UpdateVideoBlockController, ShowVideoBlockController
 
-class VideoBlockPlugin(Plugin):
-	implements = [PageBlockPluginInterface]
+class VideoBlockModule(Plugin):
+	implements = [ModuleInterface]
 	
 	def load(self):
 		print "%s loaded" % self.__class__.__name__
@@ -19,7 +19,7 @@ class VideoBlockPlugin(Plugin):
 		}
 		
 	def content(self, block):
-		template = "videoblockplugin/user/youtube.html"
+		template = "videoblockmodule/user/youtube.html"
 		if hasattr(block, "template") and block.template:
 			template = block.template
 		return Template.text_by_path(template, {"video_block": block})

@@ -7,7 +7,6 @@ class PluginInterface(Interface):
 	"""
 	Plugin structure:
 	plugin_root_dir
-		plugin.py(module with plugin class definition)
 		static
 		templates
 		lang		
@@ -18,27 +17,27 @@ class PluginInterface(Interface):
 		pass
 	def unload(self):
 		pass
+
+
+class ApiInterface(PluginInterface, Controller):
+	pass
+			
 		
-		
-class ContentPluginInterface(PluginInterface):
+class ContentInterface(PluginInterface):
 	def content(self, obj):
 		pass
 	def urls(self):
 		pass
 	def api(self):
 		pass
-		
-		
-class ApiPluginInterface(PluginInterface, Controller):
-	pass
 
 		
-class PagePluginInterface(ContentPluginInterface):
+class ComponentInterface(ContentInterface):
 	def admin(self):
 		pass
 
 
-class PageBlockPluginInterface(ContentPluginInterface):	
+class ModuleInterface(ContentInterface):	
 	def admin(self, page, placeholder):
 		pass
 
