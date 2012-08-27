@@ -21,7 +21,7 @@ class Loader(object):
 			if urls:
 				application.router.add_urls(urls)
 		application.router.add_urls({"page/(?P<name>.+)": PageRouter})
-		application.router.add_urls({"api/(?P<plugin>.+)/(?P<controller>.+)": ApiRouter})
+		application.router.add_urls({"api/(?P<plugin>.+)": ApiRouter})
 		#creating db
 		setup_all()
 		drop_all()
@@ -72,7 +72,8 @@ class Loader(object):
 		#security
 		manager_group = UserGroup(name="users")
 		admin_group = UserGroup(name="admins", parent=manager_group)
-		permission = Permission(resource=admin_page, user_group=manager_group)
+		permission_for_admin_page = Permission(resource=admin_page, user_group=manager_group)
+		permission_for_plugin = Permission(resource=Plugin.get_by(name=u"addhtmlpage"), user_group=manager_group)
 		admin_user = User(name="admin", user_group=admin_group)
 		manager_user = User(name="stas", user_group=manager_group)
 		simple_user = User(name="boris")

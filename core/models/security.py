@@ -13,14 +13,14 @@ class User(Entity):
 	#created_contents = OneToMany("Content", inverse="created")
 	#updated_contents = OneToMany("Content", inverse="updated")
 	user_group = ManyToOne("UserGroup")
-	def has_access(self, resource):
+	def has_access(self, resource, permission=None):
 		#you can access by default
 		if Permission.query.filter_by(resource=resource).count() == 0:
 			return True
 		#there are some permissions, but we are not in any group
 		if not self.user_group:
 			return False
-		return self.user_group.has_access(resource)
+		return self.user_group.has_access(resource, permission)
 		
 	
 	
@@ -30,12 +30,12 @@ class UserGroup(Entity):
 	users = OneToMany("User")
 	parent = ManyToOne("UserGroup")
 	children = OneToMany("UserGroup")
-	def has_access(self, resource):
-		permissions = Permission.query.filter_by(resource=resource, user_group=self).all()
+	def has_access(self, resource, permission=None):
+		permissions = Permission.query.filter_by(name=permission, resource=resource, user_group=self).all()
 		if len(permissions) == 0:
 			if self.parent:
 				#try parents
-				return self.parent.has_access(resource)
+				return self.parent.has_access(resource, permission)
 			else:
 				#no permissions
 				return False
@@ -58,7 +58,7 @@ class SecureResource(Entity):
 	
 	
 class Permission(Entity):
-	#name = Field(Unicode) #read, write, approve, etc
+	name = Field(Unicode) #read, write, approve, etc; can be none
 	resource = ManyToOne("SecureResource")
 	user_group = ManyToOne("UserGroup")
 	is_restriction = Field(Boolean, default=False)

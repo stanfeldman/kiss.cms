@@ -6,11 +6,14 @@ from kiss.models import session
 from models import HtmlPage
 from kiss.core.application import Application
 import re
-from core.extensions import PageBlockPluginInterface
+from core.extensions import PageBlockPluginInterface, ApiPluginInterface
+import pyplug
 from core.models.content import Plugin, PageBlock
 
 
-class AddHtmlPageController(Controller):	
+class AddHtmlPage(pyplug.Plugin):
+	implements = [ApiPluginInterface]
+	
 	def post(self, request):
 		context = {}
 		page = HtmlPage(plugin=Plugin.get_by(name=u"htmlpageplugin"), title=request.form["title"], name=request.form["name"], template="htmlpageplugin/user/" + request.form["template"])

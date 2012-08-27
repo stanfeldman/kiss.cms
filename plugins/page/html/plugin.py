@@ -3,7 +3,7 @@ from pyplug import Plugin
 from core.extensions import PagePluginInterface
 from models import HtmlPage
 from kiss.views.templates import TemplateResponse, Template
-from admin import AddHtmlPageController, HtmlPageController, DeleteHtmlPageController
+from admin import HtmlPageController, DeleteHtmlPageController
 from kiss.core.application import Application
 from jinja2 import Environment, FileSystemLoader
 import os
@@ -20,10 +20,8 @@ class HtmlPagePlugin(Plugin):
 	def title(self):
 		return "HTML %s" % _("page").decode('utf-8')
 		
-	def api(self):
-		return {
-			"add": AddHtmlPageController
-		}
+	def permissions(self):
+		return ["htmlpageplugin.admin"]
 		
 	def content(self, page):
 		return TemplateResponse(page.template, {"page": page})

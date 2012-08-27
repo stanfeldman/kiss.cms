@@ -1,7 +1,7 @@
 from kiss.views.core import Response
 from kiss.controllers.core import Controller
-from core.extensions import PagePluginInterface, ContentPluginInterface
-from core.models.content import Page
+from core.extensions import PagePluginInterface, ContentPluginInterface, ApiPluginInterface
+from core.models.content import Page, Plugin
 from core.models.security import User
 import inspect
 
@@ -20,34 +20,17 @@ class PageRouter(Controller):
 		return content
 		
 class ApiRouter(Controller):	
-	def get(self, request):
-		controller = self.get_controller(request)
-		return controller.get(request)
-		
-	def post(self, request):
-		controller = self.get_controller(request)
-		return controller.post(request)
-		
-	def put(self, request):
-		controller = self.get_controller(request)
-		return controller.put(request)
-		
-	def delete(self, request):
-		controller = self.get_controller(request)
-		return controller.delete(request)
-		
-	def get_controller(self, request):
-		if "plugin" not in request.params or not request.params["plugin"] or "controller" not in request.params or not request.params["controller"]:
+	def process(self, request):
+		if "plugin" not in request.params or not request.params["plugin"]:
 			return None
 		plugin_name = request.params["plugin"]
-		controller_name = request.params["controller"]
-		plugin = ContentPluginInterface.plugin(plugin_name, fullname=False, ignorecase=True)
-		api = plugin.api()
-		if not controller_name in api:
-			return None
-		controller = api[controller_name]
-		if inspect.isclass(controller):
-			controller = controller()
-		return controller
+		plugin = ApiPluginInterface.plugin(plugin_name, fullname=False, ignorecase=True)
+		pl_db = Plugin.get_by(name=u"addhtmlpage")
+		print "admin", User.get_by(id=1).has_access(pl_db)
+		print "manager", User.get_by(id=2).has_access(pl_db)
+		print "simple user", User.get_by(id=3).has_access(pl_db)
+		action = getattr(plugin, request.method.lower())
+		return action(request)
+
 		
 
