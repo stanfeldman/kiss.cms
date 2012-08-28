@@ -16,8 +16,9 @@ class Loader(object):
 			PluginLoader.load(p)
 		application.templates_environment.globals["placeholder"] = placeholder	
 		#adding urls
-		application.router.add_urls({"page/(?P<name>.+)": PageRouter})
 		application.router.add_urls({"api/(?P<plugin>.+)": ApiRouter})
+		application.router.add_urls({"": PageRouter})
+		application.router.add_urls({"(?P<url>.+)": PageRouter})
 		#creating db
 		setup_all()
 		drop_all()
@@ -48,13 +49,13 @@ class Loader(object):
 		#calling load in all plugins
 		PluginInterface.load_call_all()
 		#adding admin page
-		admin_page = Page(plugin=Plugin.get_by(name=u"AdminPageComponent"), title=u"Admin page", name=u"admin", template="adminpagecomponent/default.html")
+		admin_page = Page(plugin=Plugin.get_by(name=u"AdminPageComponent"), title=u"Admin page", url=u"admin", template="adminpagecomponent/default.html")
 		#sample data
 		from plugins.modules.html.models import HtmlBlock
 		from plugins.modules.video.models import VideoBlock
 		from plugins.components.html.models import HtmlPage
 		from plugins.modules.menu.models import MenuBlock, MenuItem
-		p = HtmlPage(plugin=Plugin.get_by(name=u"HtmlPageComponent"), title=u"test page", name=u"test", template=u"htmlpagecomponent/user/default.html")
+		p = HtmlPage(plugin=Plugin.get_by(name=u"HtmlPageComponent"), title=u"test page", url=u"test", template=u"htmlpagecomponent/user/default.html")
 		HtmlBlock(plugin=Plugin.get_by(name=u"HtmlBlockModule"), placeholder=u"content1", body=u"<h1>test content from db</h1>", page=p)
 		#HtmlBlock(plugin=u"HtmlBlockPlugin", placeholder=u"header", body=u"<h1>header from db</h1>", page=p)
 		VideoBlock(plugin=Plugin.get_by(name=u"VideoBlockModule"), page=p, placeholder=u"content2", link=u"SLBsGIP6NTg", template=u"videoblockmodule/user/youtube.html")

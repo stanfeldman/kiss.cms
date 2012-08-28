@@ -19,7 +19,7 @@ class HtmlPageAdminApi(pyplug.Plugin):
 	
 	def post(self, request):
 		context = {}
-		page = HtmlPage(plugin=Plugin.get_by(name=u"HtmlPageComponent"), title=request.form["title"], name=request.form["name"], template="htmlpagecomponent/user/" + request.form["template"])
+		page = HtmlPage(plugin=Plugin.get_by(name=u"HtmlPageComponent"), title=request.form["title"], url=request.form["url"], template="htmlpagecomponent/user/" + request.form["template"])
 		session.commit()
 		return Response(ComponentInterface.plugin(u"HtmlPageComponent", fullname=False, ignorecase=True).html(page))
 		

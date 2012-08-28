@@ -16,8 +16,10 @@ class Content(SecureResource):
 class Page(Content):
 	using_options(inheritance="multi")
 	title = Field(Unicode)
-	name = Field(Unicode, unique=True)
+	url = Field(Unicode, unique=True)
 	page_blocks = OneToMany("PageBlock")
+	def __repr__(self):
+		return '<HtmlPage title: %s; url: %s; template: %s>' % (self.title, self.url, self.template)
 
 
 class PageBlock(Content):

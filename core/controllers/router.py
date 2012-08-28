@@ -8,9 +8,9 @@ import inspect
 	
 class PageRouter(Controller):	
 	def get(self, request):
-		if "name" not in request.params or not request.params["name"]:
-			return None
-		page = Page.get_by(name=request.params["name"])
+		if "url" not in request.params or not request.params["url"]:
+			request.params["url"] = ""
+		page = Page.get_by(url=request.params["url"])
 		if not page:
 			return None
 		print "admin", User.get_by(id=1).has_access(page)
