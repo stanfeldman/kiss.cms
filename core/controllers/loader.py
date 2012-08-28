@@ -55,6 +55,7 @@ class Loader(object):
 		from plugins.modules.video.models import VideoBlock
 		from plugins.components.html.models import HtmlPage
 		from plugins.modules.menu.models import MenuBlock, MenuItem
+		hello_page = HtmlPage(plugin=Plugin.get_by(name=u"HtmlPageComponent"), title=u"Aloha", url=u"", template=u"commonresourcesplugin/aloha.html")
 		p = HtmlPage(plugin=Plugin.get_by(name=u"HtmlPageComponent"), title=u"test page", url=u"test", template=u"htmlpagecomponent/user/default.html")
 		HtmlBlock(plugin=Plugin.get_by(name=u"HtmlBlockModule"), placeholder=u"content1", body=u"<h1>test content from db</h1>", page=p)
 		#HtmlBlock(plugin=u"HtmlBlockPlugin", placeholder=u"header", body=u"<h1>header from db</h1>", page=p)
