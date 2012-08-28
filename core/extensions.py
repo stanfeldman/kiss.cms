@@ -26,10 +26,6 @@ class ApiInterface(PluginInterface, Controller):
 class ContentInterface(PluginInterface):
 	def content(self, obj):
 		pass
-	def urls(self):
-		pass
-	def api(self):
-		pass
 
 		
 class ComponentInterface(ContentInterface):

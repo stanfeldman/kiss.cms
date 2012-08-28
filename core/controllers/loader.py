@@ -16,10 +16,6 @@ class Loader(object):
 			PluginLoader.load(p)
 		application.templates_environment.globals["placeholder"] = placeholder	
 		#adding urls
-		#application.router.add_urls({"": RouterController})
-		for urls in ContentInterface.urls_get_all():
-			if urls:
-				application.router.add_urls(urls)
 		application.router.add_urls({"page/(?P<name>.+)": PageRouter})
 		application.router.add_urls({"api/(?P<plugin>.+)": ApiRouter})
 		#creating db
