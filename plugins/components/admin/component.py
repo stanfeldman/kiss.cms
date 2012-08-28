@@ -20,5 +20,5 @@ class AdminPageComponent(Plugin):
 					pl_title = pl_code.title()
 				if hasattr(pl_code, "admin"):
 					plugins.append((pl_name, pl_title, pl_code.admin()))
-		return TemplateResponse(page.template, {"plugins": plugins})
+		return Template.text_by_path(page.template, {"plugins": plugins})
 

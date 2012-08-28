@@ -15,14 +15,17 @@ class Loader(object):
 		for p in application.options["plugins"]["path"]:
 			PluginLoader.load(p)
 		application.templates_environment.globals["placeholder"] = placeholder	
+		
 		#adding urls
 		application.router.add_urls({"api/(?P<plugin>.+)": ApiRouter})
 		application.router.add_urls({"": PageRouter})
 		application.router.add_urls({"(?P<url>.+)": PageRouter})
+		
 		#creating db
 		setup_all()
 		drop_all()
 		create_all()
+		
 		#setting some properties
 		for plugin_name, plugin in PluginInterface.plugins_and_names(fullname=False):
 			#set application ref to plugin
@@ -48,8 +51,12 @@ class Loader(object):
 			plugin.db_instance = pl_in_db
 		#calling load in all plugins
 		PluginInterface.load_call_all()
+		
 		#adding admin page
 		admin_page = Page(plugin=Plugin.get_by(name=u"AdminPageComponent"), title=u"Admin page", url=u"admin", template="adminpagecomponent/default.html")
+		#adding login page
+		login_page = Page(plugin=Plugin.get_by(name=u"HtmlPageComponent"), title=u"Login page", url=u"login", template="securitycomponent/user/login.html")
+		
 		#sample data
 		from plugins.modules.html.models import HtmlBlock
 		from plugins.modules.video.models import VideoBlock
@@ -67,6 +74,7 @@ class Loader(object):
 		mi12 = MenuItem(title=u"MenuItem 12", page=p, parent=mi1)
 		MenuItem(title=u"MenuItem 121", page=p, parent=mi12)
 		MenuItem(title=u"MenuItem 2", menu=mb, page=p)
+		
 		#security
 		manager_group = UserGroup(name="users")
 		admin_group = UserGroup(name="admins", parent=manager_group)

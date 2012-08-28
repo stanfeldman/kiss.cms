@@ -1,7 +1,7 @@
 from kiss.core.application import Application
 from controllers.loader import Loader
 from putils.types import Dict
-from views.security import SecurityMiddleware
+from controllers.security import SecurityMiddleware
 
 
 core_options = {

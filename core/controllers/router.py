@@ -1,9 +1,10 @@
-from kiss.views.core import Response
+from kiss.views.core import Response, RedirectResponse
 from kiss.controllers.core import Controller
 from core.extensions import ComponentInterface, ApiInterface
 from core.models.content import Page, Plugin
 from core.models.security import User
 import inspect
+from kiss.core.exceptions import Forbidden
 
 	
 class PageRouter(Controller):	
@@ -13,10 +14,17 @@ class PageRouter(Controller):
 		page = Page.get_by(url=request.params["url"])
 		if not page:
 			return None
-		print request.user, request.user.has_access(page)
+		#print request.user, request.user.has_access(page)
+		if not request.user:
+			if page.has_permissions():
+				return RedirectResponse("/login?next=/")
+		else:
+			if not request.user.has_access(page):
+				return Forbidden("You don't have permission'")
 		content = ComponentInterface.plugin(page.plugin.name, fullname=False, ignorecase=True).content(page)
-		return content
-		
+		return Response(content)
+
+	
 class ApiRouter(Controller):	
 	def process(self, request):
 		if "plugin" not in request.params or not request.params["plugin"]:

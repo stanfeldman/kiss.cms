@@ -17,7 +17,7 @@ class User(Entity):
 		return '<User name: %s>' % self.name
 	def has_access(self, resource, permission=None):
 		#you can access by default
-		if Permission.query.filter_by(resource=resource).count() == 0:
+		if not resource.has_permissions():
 			return True
 		#there are some permissions, but we are not in any group
 		if not self.user_group:
@@ -57,6 +57,11 @@ class SecureResource(Entity):
 	"""
 	using_options(inheritance="multi")
 	permissions = OneToMany("Permission")
+	def has_permissions(self):
+		if Permission.query.filter_by(resource=self).count() > 0:
+			return True
+		else:
+			return False
 	
 	
 class Permission(Entity):

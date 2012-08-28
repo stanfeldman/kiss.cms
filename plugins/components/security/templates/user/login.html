@@ -1,0 +1,61 @@
+{% extends "commonresourcesplugin/base.html" %}
+
+{% block title %}{{page.title}}{% endblock %}
+
+{% block scripts %}
+	{{super()}}
+	<script src="/commonresourcesplugin/scripts/jquery.form.js"></script>
+	<script>
+	function getParameterByName(name)
+	{
+	  name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+	  var regexS = "[\\?&]" + name + "=([^&#]*)";
+	  var regex = new RegExp(regexS);
+	  var results = regex.exec(window.location.search);
+	  if(results == null)
+		return "";
+	  else
+		return decodeURIComponent(results[1].replace(/\+/g, " "));
+	}
+	$(document).ready(function() {
+		$('#login_form').ajaxForm({
+		    success: function(responseText, statusText, xhr, frm) {
+		        var url = getParameterByName("next");    
+				window.location.replace(url);
+		    } 
+		});
+		$('#login_form_submit').on('click', function(e){
+			e.preventDefault();
+			$('#login_form').submit();
+		});
+	});
+	</script>
+{% endblock %}
+
+{% block content %}
+<div class="modal" id="login_dialog">
+	<div class="modal-header">
+		<h3>Login</h3>
+	</div>
+	<div class="modal-body">
+		<form class="form-horizontal" id="login_form" action="/api/securityloginapi" method="post">
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label" for="name">Name</label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="name" name="name">
+					</div>
+					<label class="control-label" for="password">Password</label>
+					<div class="controls">
+						<input type="password" class="input-xlarge" id="password" name="password">
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<a id="login_form_submit" href="#" class="btn btn-primary">Login</a>
+	</div>
+</div>
+{% endblock %}
+

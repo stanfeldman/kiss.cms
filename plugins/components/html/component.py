@@ -22,7 +22,7 @@ class HtmlPageComponent(Plugin):
 		return "HTML %s" % _("page").decode('utf-8')
 		
 	def content(self, page):
-		return TemplateResponse(page.template, {"page": page})
+		return Template.text_by_path(page.template, {"page": page})
 		
 	def admin(self):
 		pages = HtmlPage.query.all()
