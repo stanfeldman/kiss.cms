@@ -13,9 +13,7 @@ class PageRouter(Controller):
 		page = Page.get_by(url=request.params["url"])
 		if not page:
 			return None
-		print "admin", User.get_by(id=1).has_access(page)
-		print "manager", User.get_by(id=2).has_access(page)
-		print "simple user", User.get_by(id=3).has_access(page)
+		print request.user, request.user.has_access(page)
 		content = ComponentInterface.plugin(page.plugin.name, fullname=False, ignorecase=True).content(page)
 		return content
 		
@@ -25,10 +23,7 @@ class ApiRouter(Controller):
 			return None
 		plugin_name = request.params["plugin"]
 		plugin = ApiInterface.plugin(plugin_name, fullname=False, ignorecase=True)
-		pl_db = plugin.db_instance
-		print "admin", User.get_by(id=1).has_access(pl_db)
-		print "manager", User.get_by(id=2).has_access(pl_db)
-		print "simple user", User.get_by(id=3).has_access(pl_db)
+		print request.user, request.user.has_access(plugin.db_instance)
 		action = getattr(plugin, request.method.lower())
 		return action(request)
 

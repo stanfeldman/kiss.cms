@@ -13,6 +13,8 @@ class User(Entity):
 	#created_contents = OneToMany("Content", inverse="created")
 	#updated_contents = OneToMany("Content", inverse="updated")
 	user_group = ManyToOne("UserGroup")
+	def __repr__(self):
+		return '<User name: %s>' % self.name
 	def has_access(self, resource, permission=None):
 		#you can access by default
 		if Permission.query.filter_by(resource=resource).count() == 0:

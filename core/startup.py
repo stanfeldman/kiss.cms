@@ -1,12 +1,13 @@
 from kiss.core.application import Application
-from kiss.core.events import BeforeInitServer
 from controllers.loader import Loader
 from putils.types import Dict
+from views.security import SecurityMiddleware
 
 
 core_options = {
 	"events": {
-		BeforeInitServer: Loader.on_before_init_server
+		"BeforeInitServer": Loader.on_before_init_server,
+		"BeforeControllerAction": SecurityMiddleware.set_user
 	}
 }
 
